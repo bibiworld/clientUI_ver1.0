@@ -2,6 +2,7 @@
 #include <QTextCodec>
 #include <QLineEdit>
 #include <QDebug>
+#include <QStringList>
 search::search(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
@@ -49,9 +50,12 @@ void search::recvMessage()
     QRegExp sep("[)(]");
     QString word = mess.section(sep,2,2);
     QString soundmark = mess.section(sep,4,4);
+    QStringList soundmarkList = soundmark.split("; ");
     QString meaning = mess.section(sep,6,6);    
     QString example = mess.section(sep,8,8);
-    //qDebug() << mess.section(sep,2,2);// << "\n" << mess.section(sep,1,1) << "\n" << meaning << "\n" << example;
+    example = example.replace(']',"").replace('|'," ");
+    QStringList exampleList = example.split("[");
+    qDebug() << mess.section(sep,8,8);// << "\n" << mess.section(sep,1,1) << "\n" << meaning << "\n" << example;
     QString out;
     if(word == "0")
     {
@@ -65,11 +69,22 @@ void search::recvMessage()
         }
         out += word;
         out += "\n读音：";
-        out += soundmark;
+        for(int i = 0;i < soundmarkList.size();i++)
+        {
+            out += "/";
+            out += soundmarkList[i];
+            out += "/";
+            if(i < soundmarkList.size() - 1)
+                out += " or ";
+        }
         out += "\n释义：";
         out += meaning;
         out += "\n例句：";
-        out += example;
+        for(int i = 0;i < exampleList.size();i++)
+        {
+             out += exampleList[i];
+             out += "\n";
+        }
     }
     textEdit->setText(out);
 }
