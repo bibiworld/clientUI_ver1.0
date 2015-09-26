@@ -16,7 +16,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
-#define SERVER_IP "59.66.131.132"
+#define SERVER_IP "59.66.131.174"
 #define SERVER_PORT 1234
 //#define SERVER_IP "127.0.0.1"
 //#define SERVER_PORT 8010
@@ -62,6 +62,7 @@ private://interface for hyf
     QTcpSocket *tcpSocket;
     int state;
     bool isSuccess;
+    bool isMyturn;
 public:
     QString getUserName(){
         return username;

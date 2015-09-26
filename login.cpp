@@ -7,7 +7,7 @@ Login::Login(QWidget *parent)
     tcpSocket->connectToHost(QHostAddress(SERVER_IP),SERVER_PORT);
     connect(this->tcpSocket,SIGNAL(readyRead()),this,SLOT(recvMessage()));
     isSuccess = 0;
-
+    isMyturn = 1;
 
     int width = 450;
     int height = 300;
@@ -116,6 +116,8 @@ void Login::sendMessage(QString info){
     tcpSocket->flush();
 }
 void Login::recvMessage(){
+    if(!isMyturn)
+        return;
     QString info;
     info = this->tcpSocket->readAll();
     qDebug() << info;
@@ -134,6 +136,7 @@ void Login::recvMessage(){
         if(info=="BIBI_login((1)(1))"){
             qDebug() << "login successful";
             isSuccess = true;
+            isMyturn = 0;
             close();
         }
         else if(info=="BIBI_login((1)(0))"){
