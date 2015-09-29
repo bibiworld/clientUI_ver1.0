@@ -3,5 +3,6 @@
         <file>images/search.png</file>
         <file>images/user.png</file>
         <file>images/search_black.png</file>
+        <file>images/cards.png</file>
     </qresource>
 </RCC>

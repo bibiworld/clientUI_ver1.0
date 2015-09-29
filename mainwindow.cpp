@@ -2,6 +2,14 @@
 #include "ui_mainwindow.h"
 #include <QLineEdit>
 #include <QDebug>
+#include <QTextDocument>
+#include <QtPrintSupport/QPrinter>
+#include <QPdfWriter>
+#include <QFile>
+#include <QPainter>
+#include <QDebug>
+#include <QPen>
+#include <QPageLayout>
 const QString imagesPath = ":/images";
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,10 +17,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->hide();
+    /*
     myLogin = new Login(this);
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
+    */
     this->show();
     socket = myLogin->getSocket();
     mySearch = NULL;
@@ -20,12 +30,15 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setContextMenuPolicy(Qt::NoContextMenu);
     QAction* searchAction = new QAction(QIcon(imagesPath + "/search.png"),tr("查询单词"),this);
     QAction* userAction = new QAction(QIcon(imagesPath + "/user.png"),tr("用户管理"),this);
+    QAction* cardAction = new QAction(QIcon(imagesPath + "/cards.png"),tr("单词卡"),this);
     toolBar->addAction(searchAction);
     toolBar->addAction(userAction);
+    toolBar->addAction(cardAction);
     this->addToolBar(Qt::TopToolBarArea,toolBar);
     
     connect(searchAction,SIGNAL(triggered(bool)),this,SLOT(searchWord()));
     connect(userAction,SIGNAL(triggered(bool)),this,SLOT(userInfo()));
+    connect(cardAction,SIGNAL(triggered(bool)),this,SLOT(printCards()));
 }
 
 MainWindow::~MainWindow()
@@ -57,3 +70,10 @@ void MainWindow::userInfo()
 {
     clearUI();
 }
+
+void MainWindow::printCards() {
+    clearUI();
+    myCards = new Cards(this);
+    qDebug() << "print cards!";
+}
+
