@@ -48,7 +48,7 @@ void fuzzySearch::searchWord()
     int index = box->currentIndex();
     QString tmpdata = "BIBI_fuzzy(";
     if(index > 0)
-        tmpdata = "(" + QString::number(index) + ")";
+        tmpdata += "(" + QString::number(index) + ")";
     tmpdata += lineEdit->text();
     tmpdata += ")";
     qDebug() << "send:" << tmpdata;
