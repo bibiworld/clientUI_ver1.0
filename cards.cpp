@@ -28,12 +28,6 @@ Cards::Cards(MainWindow* p) : parent(p)
     pri->setGeometry(275, 200, 100, 30);
     pri->show();
     connect(pri, SIGNAL(clicked(bool)), this, SLOT(printPdf()));
-    /*
-    for(int i = 0; i < 20; ++i) {
-        parent->eng.push_back(QString::number(i));
-        parent->chi.push_back(QString::number(i));
-    }
-    */
     list = new QListWidget(parent);
     list->setGeometry(50, 50, 200, 200);
     for(int i = 0; i < (int)parent->eng.size(); ++i) {
