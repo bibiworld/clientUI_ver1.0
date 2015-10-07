@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     myLogin->exec();
     myLogin->hide();
     
+    //if(!myLogin->findSuccess()) exit(0);
     this->show();
     socket = myLogin->getSocket();
     mySearch = 0;
