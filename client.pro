@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT += network
+QT += gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,11 +17,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     search.cpp \
-    login.cpp
+    login.cpp \
+    cards.cpp
 
 HEADERS  += mainwindow.h \
     search.h \
-    login.h
+    login.h \
+    cards.h
 
 FORMS    += mainwindow.ui
 

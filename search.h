@@ -16,12 +16,16 @@ private:
     QLineEdit* lineEdit;
     QTextEdit* textEdit;
     QPushButton* button;
+    QPushButton* addButton;
+    QString word;
+    QString meaning;
 public:
     search(QWidget* p,MainWindow* m);
     ~search();
 private slots:
     void searchWord();
     void recvMessage();
+    void addWord();
 };
 
 #endif // SEARCH

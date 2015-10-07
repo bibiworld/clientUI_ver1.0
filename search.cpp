@@ -3,19 +3,27 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QStringList>
+#include <QMessageBox>
 search::search(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
     parent = m;
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
-    lineEdit->setGeometry(100,45,160,25);
+    lineEdit->setGeometry(80,45,140,25);
     
     button = new QPushButton(parent);
     button->show();
-    button->setGeometry(275,45,25,25);
+    button->setGeometry(240,45,25,25);
     button->setIcon(QIcon(":/images/search_black.png"));
     connect(button,SIGNAL(clicked(bool)),this,SLOT(searchWord()));
+    
+    addButton = new QPushButton(parent);
+    addButton->show();
+    addButton->setGeometry(280,45,40,25);
+    addButton->setText("添加");
+    connect(addButton,SIGNAL(clicked(bool)),this,SLOT(addWord()));
+    
     textEdit = new QTextEdit(parent);
     textEdit->show();
     textEdit->setGeometry(80,80,240,210);
@@ -27,6 +35,7 @@ search::~search()
     if(lineEdit) delete lineEdit;
     if(textEdit) delete textEdit;
     if(button) delete button;
+    if(addButton) delete addButton;
 }
 
 void search::searchWord()
@@ -85,6 +94,22 @@ void search::recvMessage()
              out += exampleList[i];
              out += "\n";
         }
+        this->word = word;
+        this->meaning = meaning;
     }
     textEdit->setText(out);
+}
+
+void search::addWord()
+{
+    if(this->word == "")
+    {
+        QMessageBox::information(this,"消息","没有要添加的单词",QMessageBox::Ok);
+        return;
+    }
+    parent->eng.push_back(this->word);
+    parent->chi.push_back(this->meaning);
+    this->word = "";
+    this->meaning = "";
+    QMessageBox::information(this,"消息","添加成功",QMessageBox::Ok);
 }
