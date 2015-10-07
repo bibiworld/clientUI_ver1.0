@@ -1,5 +1,6 @@
 #include "fuzzysearch.h"
 #include <QDebug>
+#include <QMessageBox>
 
 fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
     : QDialog(p)
@@ -50,6 +51,11 @@ void fuzzySearch::searchWord()
     if(index > 0)
         tmpdata += "(" + QString::number(index) + ")";
     tmpdata += lineEdit->text();
+    if(lineEdit->text() == "")
+    {
+        QMessageBox::information(parent,"消息","没有要查询的单词",QMessageBox::Ok);
+        return;
+    }
     tmpdata += ")";
     qDebug() << "send:" << tmpdata;
     parent->socket->write(tmpdata.toStdString().c_str());
