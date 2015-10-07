@@ -14,19 +14,19 @@ search::search(QWidget* p,MainWindow * m)
     
     button = new QPushButton(parent);
     button->show();
-    button->setGeometry(240,45,25,25);
+    button->setGeometry(230,45,25,25);
     button->setIcon(QIcon(":/images/search_black.png"));
     connect(button,SIGNAL(clicked(bool)),this,SLOT(searchWord()));
     
     addButton = new QPushButton(parent);
     addButton->show();
-    addButton->setGeometry(280,45,40,25);
-    addButton->setText("添加");
+    addButton->setGeometry(260,45,60,25);
+    addButton->setText("收藏单词");
     connect(addButton,SIGNAL(clicked(bool)),this,SLOT(addWord()));
     
     textEdit = new QTextEdit(parent);
     textEdit->show();
-    textEdit->setGeometry(80,80,240,210);
+    textEdit->setGeometry(60,80,280,210);
     connect(parent->socket,SIGNAL(readyRead()),this,SLOT(recvMessage()));
 }
 
@@ -102,7 +102,7 @@ void search::recvMessage()
 
 void search::addWord()
 {
-    if(this->word == "")
+    if(this->word == "" || this->meaning == "")
     {
         QMessageBox::information(this,"消息","没有要添加的单词",QMessageBox::Ok);
         return;

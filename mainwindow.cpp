@@ -33,8 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction* userAction = new QAction(QIcon(imagesPath + "/user.png"),tr("用户管理"),this);
     QAction* cardAction = new QAction(QIcon(imagesPath + "/cards.png"),tr("单词卡"),this);
     toolBar->addAction(searchAction);
-    toolBar->addAction(userAction);
     toolBar->addAction(cardAction);
+    toolBar->addAction(userAction);
+    
     this->addToolBar(Qt::TopToolBarArea,toolBar);
     
     connect(searchAction,SIGNAL(triggered(bool)),this,SLOT(searchWord()));
