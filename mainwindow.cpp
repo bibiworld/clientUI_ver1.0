@@ -9,7 +9,8 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPen>
-#include <QPageLayout>
+//#include <QPageLayout>
+
 const QString imagesPath = ":/images";
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
-    
+
+    if(!myLogin->findSuccess()) exit(0);
     this->show();
     socket = myLogin->getSocket();
     mySearch = 0;

@@ -20,6 +20,16 @@ Login::Login(QWidget *parent)
     pic->resize(450,1500);*/
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+    time = new QTimer(this);
+    connect(time,SIGNAL(timeout()),this,SLOT(afterTimeout()));
+
+    //这里是等待的画面
+    QPixmap waitingPic(":images/waiting.png");
+    QSplashScreen splash(waitingPic);
+    splash.show();
+    Sleep(5000);
+    //
+
     userNameLabel = new QLabel;
     userNameLabel->setText(tr("用户名："));
     userPasswordLabel = new QLabel;
@@ -68,12 +78,16 @@ Login::Login(QWidget *parent)
 
 
 
+    setTabOrder(logintoButton,exitoutButton);
+    setTabOrder(exitoutButton,remberPassword);
+    setTabOrder(remberPassword,autoLogin);
+
     connect(logintoButton,SIGNAL(clicked()),this,SLOT(loginto()));
     connect(exitoutButton,SIGNAL(clicked()),this,SLOT(exitout()));
     connect(forgetPasswordButton,SIGNAL(clicked()),this,SLOT(forgetPassword()));
     connect(registerButton,SIGNAL(clicked()),this,SLOT(toRegister()));
 
-
+    findAuto();
 }
 
 Login::~Login()
@@ -82,6 +96,8 @@ Login::~Login()
 }
 
 void Login::loginto(){
+    time->start(5000);
+    qDebug() << "push login";
     QString tmpname = userNameEdit->text();
     QString tmppassword = userPasswordEdit->text();
     if(tmpname==""||tmppassword=="")return;
@@ -89,6 +105,32 @@ void Login::loginto(){
     sendMessage(info);
     //sendMessage("baijiaoyuan nizhale");
     state = LOGIN;
+
+
+        QFile file("password.pw");
+        file.open( QIODevice::ReadWrite | QIODevice::Text );
+        file.close();
+        if(file.open(QIODevice::ReadWrite)){
+            QTextStream out(&file);
+            QString info = "";
+            std::string str = "";
+            str += userNameEdit->text().toStdString() + "," + userPasswordEdit->text().toStdString();
+
+            std::string tmp1 = "1";
+            std::string tmp0 = "0";
+            if(remberPassword->isChecked())
+                str += "," + tmp1;
+            else
+                str += "," + tmp0;
+            if(autoLogin->isChecked())
+                str += "," + tmp1;
+            else
+                str += "," + tmp0;
+
+            info = info.fromStdString(str);
+            out<<info;
+        }
+
 }
 void Login::exitout(){
     exit(0);
@@ -108,12 +150,40 @@ void Login::toRegister(){
     state = REGISTER;
 }
 
+void Login::findAuto()
+{
+    QFile *file=new QFile("password.pw");
+    file->open(QIODevice::ReadOnly|QIODevice::Text);
+    QString data = QString(file->readAll());
+    QStringList list = data.split(",");
+    if(list[2]=="1"){
+        userNameEdit->setText(list[0]);
+        userPasswordEdit->setText(list[1]);
+        if(list[3]=="1"){
+            Sleep(1000);
+            loginto();
+        }
+    }
+
+
+}
+
 void Login::sendMessage(QString info){
     QByteArray *array =new QByteArray;
     array->clear();
     array->append(info);
     tcpSocket->write(array->data());
     tcpSocket->flush();
+}
+
+void Login::afterTimeout()
+{
+   // qDebug() << "come to aftertimeout ";
+
+    if(isSuccess)
+        return;
+    QMessageBox::information(this,tr("网络中断"),tr("网络中断啦！"));
+    time->stop();
 }
 void Login::recvMessage(){
     if(!isMyturn)
@@ -150,7 +220,18 @@ void Login::recvMessage(){
     }
 }
 
-void Login::closeEvent(QCloseEvent *)
+
+void Login::closeEvent(QCloseEvent *){
+    if(isSuccess){
+        return;
+    }
+    else{
+        exit(0);
+    }
+
+}
+
+bool Login::findSuccess()
 {
-     if(!isSuccess) exit(0);
+    return isSuccess;
 }
