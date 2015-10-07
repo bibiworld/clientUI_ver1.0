@@ -7,6 +7,7 @@
 #include <QDialog>
 #include <QtNetwork/QTcpSocket>
 #include <QComboBox>
+#include <QLabel>
 #include "mainwindow.h"
 
 class MainWindow;
@@ -18,6 +19,7 @@ private:
     QLineEdit* lineEdit;
     QTextEdit* textEdit;
     QPushButton* button;
+    QLabel* label;
     QComboBox* box;
 public:
     fuzzySearch(QWidget* p,MainWindow* m);
