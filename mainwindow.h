@@ -41,6 +41,8 @@ private:
     vector<QString> eng;
     vector<QString> chi;
     void clearUI();
+    
+    void closeEvent(QCloseEvent *);
 private slots:
     void searchWord();
     void fuzzySearchWord();

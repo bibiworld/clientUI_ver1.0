@@ -22,7 +22,7 @@
 #include <QTime>
 #include <QFile>
 
-#define SERVER_IP "59.66.131.186"
+#define SERVER_IP "59.66.131.73"
 #define SERVER_PORT 1234
 //#define SERVER_IP "127.0.0.1"
 //#define SERVER_PORT 8010

@@ -20,15 +20,15 @@ MainWindow::MainWindow(QWidget *parent) :
     this->hide();
     
     myLogin = new Login(this);
-    /*
+    
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
-    */
-    //if(!myLogin->findSuccess()) exit(0);
+    
+    if(!myLogin->findSuccess()) exit(0);
     this->show();
-    //socket = myLogin->getSocket();
-    socket = 0;
+    socket = myLogin->getSocket();
+    //socket = 0;
     mySearch = 0;
     myCards = 0;
     myFuzzySearch = 0;
@@ -109,5 +109,10 @@ void MainWindow::printCards() {
     clearUI();
     myCards = new Cards(this);
     qDebug() << "print cards!";
+}
+
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    socket->write("BIBI_quit");
 }
 

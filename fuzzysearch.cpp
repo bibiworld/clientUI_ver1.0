@@ -8,16 +8,16 @@ fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
     parent = m;
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
-    lineEdit->setGeometry(100,60,190,40);
+    lineEdit->setGeometry(100,60,260,40);
     
     label = new QLabel(parent);
     label->show();
-    label->setGeometry(300,60,80,40);
+    label->setGeometry(370,50,80,25);
     label->setText("单词最大长度");
     
     box = new QComboBox(parent);
     box->show();
-    box->setGeometry(390,60,60,40);
+    box->setGeometry(370,80,80,25);
     box->addItem("不确定");
     for(int i = 1;i < 12;i++)
     {
@@ -67,16 +67,29 @@ void fuzzySearch::recvMessage()
 {
     QString mess = parent->socket->readAll();
     mess = QString(mess);
-    qDebug() << "recv:" << mess;
+    QString out = mess;
+    qDebug() << "hehe";
+    //qDebug() << "recv:" << mess;
     QRegExp sep("[)(]");
     mess = mess.section(sep,1,1);
-    QStringList result = mess.split(";");
-    QString out = "模糊查询结果\n";
-    for(QStringList::iterator it = result.begin();it != result.end();it++)
+    //qDebug() << mess;
+    if(mess == "0")
     {
-        out += it->split(",")[0];
-        out += it->split(",")[1];
-        out += "\n";
+        textEdit->setText("对不起，没有满足您要求的单词");
+        return;
     }
+    QStringList result = mess.split(";");
+    
+    out = "模糊查询结果:\n";
+    
+    for(int i = 0;i < result.size()-1;i++)
+    {
+        out += result[i].split(",")[0];
+        out += ":  ";
+        out += result[i].split(",")[1];
+        out += "\n";
+        qDebug() << out;
+    }
+    
     textEdit->setText(out);
 }

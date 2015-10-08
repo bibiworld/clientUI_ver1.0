@@ -41,6 +41,11 @@ search::~search()
 void search::searchWord()
 {
     QString word = lineEdit->text();
+    if(word == "")
+    {
+        QMessageBox::information(this,"消息","没有要查询的单词",QMessageBox::Ok);
+        return;
+    }
     QTcpSocket* s = parent->getSocket();
     QString mess = "BIBI_search(";
     mess += word;
@@ -102,7 +107,7 @@ void search::recvMessage()
 
 void search::addWord()
 {
-    if(this->word == "" || this->meaning == "")
+    if(this->word != lineEdit->text() || this->word == "" || this->meaning == "")
     {
         QMessageBox::information(this,"消息","没有要添加的单词",QMessageBox::Ok);
         return;
