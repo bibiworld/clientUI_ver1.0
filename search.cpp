@@ -10,23 +10,23 @@ search::search(QWidget* p,MainWindow * m)
     parent = m;
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
-    lineEdit->setGeometry(80,45,140,25);
+    lineEdit->setGeometry(100,60,270,40);
     
     button = new QPushButton(parent);
     button->show();
-    button->setGeometry(230,45,25,25);
+    button->setGeometry(380,60,40,40);
     button->setIcon(QIcon(":/images/search_black.png"));
     connect(button,SIGNAL(clicked(bool)),this,SLOT(searchWord()));
     
     addButton = new QPushButton(parent);
     addButton->show();
-    addButton->setGeometry(260,45,60,25);
+    addButton->setGeometry(440,60,60,40);
     addButton->setText("收藏单词");
     connect(addButton,SIGNAL(clicked(bool)),this,SLOT(addWord()));
     
     textEdit = new QTextEdit(parent);
     textEdit->show();
-    textEdit->setGeometry(60,80,280,210);
+    textEdit->setGeometry(100,110,400,280);
     connect(parent->socket,SIGNAL(readyRead()),this,SLOT(recvMessage()));
 }
 

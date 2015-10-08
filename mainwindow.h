@@ -6,6 +6,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <vector>
 #include <QString>
+#include <QLabel>
 #include "search.h"
 #include "fuzzysearch.h"
 #include "login.h"
@@ -36,6 +37,7 @@ private:
     fuzzySearch* myFuzzySearch;
     Login* myLogin;
     Cards* myCards;
+    QLabel* sentencesLabel;
     vector<QString> eng;
     vector<QString> chi;
     void clearUI();

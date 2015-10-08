@@ -14,7 +14,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPen>
-#include <QPageLayout>
+//#include <QPageLayout>
 
 Cards::Cards(MainWindow* p) : parent(p)
 {

@@ -9,7 +9,8 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPen>
-#include <QPageLayout>
+//#include <QPageLayout>
+
 const QString imagesPath = ":/images";
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,16 +20,25 @@ MainWindow::MainWindow(QWidget *parent) :
     this->hide();
     
     myLogin = new Login(this);
+    /*
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
-    
+    */
     //if(!myLogin->findSuccess()) exit(0);
     this->show();
-    socket = myLogin->getSocket();
+    //socket = myLogin->getSocket();
+    socket = 0;
     mySearch = 0;
     myCards = 0;
     myFuzzySearch = 0;
+    
+    sentencesLabel = new QLabel(this);
+    sentencesLabel->setMargin(30);
+    sentencesLabel->setGeometry(80,410,440,80);
+    sentencesLabel->setText("此处将显示每日好句");
+    sentencesLabel->show();
+    
     toolBar = new QToolBar(this);
     this->setContextMenuPolicy(Qt::NoContextMenu);
     QAction* searchAction = new QAction(QIcon(imagesPath + "/search.png"),tr("查询单词"),this);
