@@ -40,7 +40,11 @@ Login::Login(QWidget *parent)
     QPixmap waitingPic(":images/waiting.png");
     QSplashScreen splash(waitingPic);
     splash.show();
+<<<<<<< HEAD
     QThread::sleep(5);
+=======
+    Sleep(5000);
+>>>>>>> 9054b7df4035bb28bc5963e390a1abd25640d84c
     //
 
     userNameLabel = new QLabel;
@@ -169,13 +173,20 @@ void Login::findAuto()
     file->open(QIODevice::ReadOnly|QIODevice::Text);
     QString data = QString(file->readAll());
     QStringList list = data.split(",");
+<<<<<<< HEAD
     if(list.length() < 4)
         return;
+=======
+>>>>>>> 9054b7df4035bb28bc5963e390a1abd25640d84c
     if(list[2]=="1"){
         userNameEdit->setText(list[0]);
         userPasswordEdit->setText(list[1]);
         if(list[3]=="1"){
+<<<<<<< HEAD
             QThread::sleep(1);
+=======
+            Sleep(1000);
+>>>>>>> 9054b7df4035bb28bc5963e390a1abd25640d84c
             loginto();
         }
     }

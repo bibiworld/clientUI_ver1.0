@@ -6,7 +6,9 @@
 #include <QtNetwork/QTcpSocket>
 #include <vector>
 #include <QString>
+#include <QLabel>
 #include "search.h"
+#include "fuzzysearch.h"
 #include "login.h"
 #include "cards.h"
 
@@ -16,6 +18,7 @@ namespace Ui {
 class MainWindow;
 }
 class search;
+class fuzzySearch;
 class Cards;
 class MainWindow : public QMainWindow
 {
@@ -31,13 +34,16 @@ private:
     Ui::MainWindow *ui;
     QToolBar* toolBar;
     search* mySearch;
+    fuzzySearch* myFuzzySearch;
     Login* myLogin;
     Cards* myCards;
+    QLabel* sentencesLabel;
     vector<QString> eng;
     vector<QString> chi;
     void clearUI();
 private slots:
     void searchWord();
+    void fuzzySearchWord();
     void userInfo();
     void printCards();
 };

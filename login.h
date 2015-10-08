@@ -1,6 +1,7 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
+#include <windows.h>
 #include <QDialog>
 #include <QLabel>
 #include <QPushButton>
@@ -20,9 +21,14 @@
 #include <QTimer>
 #include <QTime>
 #include <QFile>
+<<<<<<< HEAD
 #include <QThread>
 
 #define SERVER_IP "59.66.131.73"
+=======
+
+#define SERVER_IP "59.66.131.186"
+>>>>>>> 9054b7df4035bb28bc5963e390a1abd25640d84c
 #define SERVER_PORT 1234
 //#define SERVER_IP "127.0.0.1"
 //#define SERVER_PORT 8010
@@ -73,11 +79,14 @@ private://interface for hyf
     bool isMyturn;
     QTimer* time;
     void findAuto();
+<<<<<<< HEAD
     bool connectedSuccess;
     void isConnected(){
         connectedSuccess = true;
         qDebug() << "iconnected";
     }
+=======
+>>>>>>> 9054b7df4035bb28bc5963e390a1abd25640d84c
 public:
     QString getUserName(){
         return username;

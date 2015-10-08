@@ -20,27 +20,46 @@ MainWindow::MainWindow(QWidget *parent) :
     this->hide();
     
     myLogin = new Login(this);
+    /*
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
+<<<<<<< HEAD
 
     if(!myLogin->findSuccess()) exit(0);
+=======
+    */
+    //if(!myLogin->findSuccess()) exit(0);
+>>>>>>> 9054b7df4035bb28bc5963e390a1abd25640d84c
     this->show();
-    socket = myLogin->getSocket();
+    //socket = myLogin->getSocket();
+    socket = 0;
     mySearch = 0;
     myCards = 0;
+    myFuzzySearch = 0;
+    
+    sentencesLabel = new QLabel(this);
+    sentencesLabel->setMargin(30);
+    sentencesLabel->setGeometry(80,410,440,80);
+    sentencesLabel->setText("此处将显示每日好句");
+    sentencesLabel->show();
+    
     toolBar = new QToolBar(this);
     this->setContextMenuPolicy(Qt::NoContextMenu);
     QAction* searchAction = new QAction(QIcon(imagesPath + "/search.png"),tr("查询单词"),this);
     QAction* userAction = new QAction(QIcon(imagesPath + "/user.png"),tr("用户管理"),this);
     QAction* cardAction = new QAction(QIcon(imagesPath + "/cards.png"),tr("单词卡"),this);
+    QAction* fuzzyAction = new QAction(QIcon(imagesPath + "/user.png"),tr("模糊查询"),this);
+    
     toolBar->addAction(searchAction);
+    toolBar->addAction(fuzzyAction);
     toolBar->addAction(cardAction);
     toolBar->addAction(userAction);
     
     this->addToolBar(Qt::TopToolBarArea,toolBar);
     
     connect(searchAction,SIGNAL(triggered(bool)),this,SLOT(searchWord()));
+    connect(fuzzyAction,SIGNAL(triggered(bool)),this,SLOT(fuzzySearchWord()));
     connect(userAction,SIGNAL(triggered(bool)),this,SLOT(userInfo()));
     connect(cardAction,SIGNAL(triggered(bool)),this,SLOT(printCards()));
 }
@@ -62,6 +81,11 @@ void MainWindow::clearUI()
         delete myCards;
         myCards = 0;
     }
+    if(myFuzzySearch != 0)
+    {
+        delete myFuzzySearch;
+        myFuzzySearch = 0;
+    }
 }
 
 QTcpSocket* MainWindow::getSocket()
@@ -73,6 +97,12 @@ void MainWindow::searchWord()
 {
     clearUI();
     mySearch = new search(0,this);
+}
+
+void MainWindow::fuzzySearchWord()
+{
+    clearUI();
+    myFuzzySearch = new fuzzySearch(0,this);
 }
 
 void MainWindow::userInfo()
