@@ -21,11 +21,10 @@
 #include <QTimer>
 #include <QTime>
 #include <QFile>
+#include <QThread>
 
 #define SERVER_IP "59.66.131.73"
-#define SERVER_PORT 1234
-//#define SERVER_IP "127.0.0.1"
-//#define SERVER_PORT 8010
+#define SERVER_PORT 1234 
 #define LOGIN 1
 #define REGISTER 2
 
@@ -73,6 +72,11 @@ private://interface for hyf
     bool isMyturn;
     QTimer* time;
     void findAuto();
+    bool connectedSuccess;
+    void isConnected(){
+        connectedSuccess = true;
+        qDebug() << "iconnected";
+    }
 public:
     QString getUserName(){
         return username;

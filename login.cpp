@@ -4,7 +4,20 @@ Login::Login(QWidget *parent)
     : QDialog(parent)
 {
     tcpSocket = new QTcpSocket(this);
+    connectedSuccess = false;
+    tcpSocket->abort();
     tcpSocket->connectToHost(QHostAddress(SERVER_IP),SERVER_PORT);
+    /*connect(tcpSocket,SIGNAL(connected()),this,SLOT(isConnected()));
+    int connectCnt = 0;
+    while(!connectedSuccess){
+        tcpSocket->connectToHost(QHostAddress(SERVER_IP),SERVER_PORT);
+        connectCnt++;
+        if(connectCnt > 10){
+            break;
+            qDebug() << "大哥，我连了10次了，还是不行啊！";
+        }
+    }*/
+
     connect(this->tcpSocket,SIGNAL(readyRead()),this,SLOT(recvMessage()));
     isSuccess = 0;
     isMyturn = 1;
@@ -27,8 +40,7 @@ Login::Login(QWidget *parent)
     QPixmap waitingPic(":images/waiting.png");
     QSplashScreen splash(waitingPic);
     splash.show();
-    Sleep(5000);
-    //
+    QThread::sleep(5);
 
     userNameLabel = new QLabel;
     userNameLabel->setText(tr("用户名："));
@@ -156,11 +168,17 @@ void Login::findAuto()
     file->open(QIODevice::ReadOnly|QIODevice::Text);
     QString data = QString(file->readAll());
     QStringList list = data.split(",");
+
+    if(list.length() < 4)
+        return;
+
     if(list[2]=="1"){
         userNameEdit->setText(list[0]);
         userPasswordEdit->setText(list[1]);
         if(list[3]=="1"){
-            Sleep(1000);
+
+            QThread::sleep(1);
+
             loginto();
         }
     }
