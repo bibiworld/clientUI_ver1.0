@@ -48,19 +48,12 @@ fuzzySearch::~fuzzySearch()
 void fuzzySearch::searchWord()
 {
     int index = box->currentIndex();
-    QString tmpdata = "BIBI_fuzzy(";
-    if(index > 0)
-        tmpdata += "(" + QString::number(index) + ")";
-    tmpdata += lineEdit->text();
     if(lineEdit->text() == "")
     {
         QMessageBox::information(parent,"消息","没有要查询的单词",QMessageBox::Ok);
         return;
     }
-    tmpdata += ")";
-    qDebug() << "send:" << tmpdata;
-    parent->socket->write(tmpdata.toStdString().c_str());
-    parent->socket->flush();
+    Send::B_fuzzysearch(parent->socket,lineEdit->text(),index);
 }
 
 void fuzzySearch::recvMessage()

@@ -47,19 +47,12 @@ void search::searchWord()
         return;
     }
     QTcpSocket* s = parent->getSocket();
-    QString mess = "BIBI_search(";
-    mess += word;
-    mess += ")";
-    qDebug() << "send" << mess;
-    s->write(mess.toStdString().c_str());
-    s->flush();
+    Send::B_search(s,word);
 }
 
 void search::recvMessage()
 {
     QString mess = parent->socket->readAll();
-    //qDebug() << "ret" << mess;
-    //mess = "BIBI_search((push)(p\u028A\u0283; p\u028A\u0283)(n.\u63A8,\u594B\u529B,\u51B3\u5FC3v.\u63A8,\u6324,\u903C\u8FEB)([He|pushed|her|into|making|a|decision.][\u4ED6\u50AC\u4FC3\u5979\u505A\u51FA\u51B3\u5B9A\u3002][You|may|stop|the|machine|by|pushing|this|button.][\u4F60\u6309\u4E0B\u8FD9\u4E2A\u6309\u94AE\u5C31\u53EF\u4EE5\u5173\u673A\u3002]))";
     mess = QString(mess);
     QRegExp sep("[)(]");
     QString word = mess.section(sep,2,2);

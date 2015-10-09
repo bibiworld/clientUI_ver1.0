@@ -19,13 +19,17 @@ SOURCES += main.cpp\
     search.cpp \
     login.cpp \
     cards.cpp \
-    fuzzysearch.cpp
+    fuzzysearch.cpp \
+    send.cpp \
+    recv.cpp
 
 HEADERS  += mainwindow.h \
     search.h \
     login.h \
     cards.h \
-    fuzzysearch.h
+    fuzzysearch.h \
+    send.h \
+    recv.h
 
 FORMS    += mainwindow.ui
 

@@ -7,6 +7,8 @@
 #include <vector>
 #include <QString>
 #include <QLabel>
+
+#include "send.h"
 #include "search.h"
 #include "fuzzysearch.h"
 #include "login.h"
