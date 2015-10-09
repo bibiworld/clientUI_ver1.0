@@ -9,6 +9,7 @@
 #include <QLabel>
 
 #include "send.h"
+#include "recv.h"
 #include "search.h"
 #include "fuzzysearch.h"
 #include "login.h"

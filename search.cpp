@@ -52,6 +52,7 @@ void search::searchWord()
 
 void search::recvMessage()
 {
+    //code here to be rewrite with class Recv
     QString mess = parent->socket->readAll();
     mess = QString(mess);
     QRegExp sep("[)(]");

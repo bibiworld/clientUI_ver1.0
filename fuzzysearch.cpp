@@ -58,6 +58,7 @@ void fuzzySearch::searchWord()
 
 void fuzzySearch::recvMessage()
 {
+    //code here to be rewrite with class Recv
     QString mess = parent->socket->readAll();
     mess = QString(mess);
     QString out = mess;

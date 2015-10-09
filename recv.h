@@ -12,6 +12,7 @@ class Recv : public QObject
 private:
     QTcpSocket* socket;
     QString data;
+    int num;
     
     //process different protocol
     void B_search(QString);
