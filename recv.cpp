@@ -1,4 +1,5 @@
 #include "recv.h"
+#include <QDebug>
 
 Recv::Recv(QTcpSocket *s, QObject *parent):
     QObject(parent),
@@ -17,28 +18,36 @@ Recv::~Recv()
 void Recv::recvMessage()
 {
     QString tmp = socket->readAll();
-    num = num + tmp.count('(') - tmp.count(')');
-    data += tmp;
+    //if(tmp == "") return;
+    qDebug() << "recv:" << tmp;
+    if(tmp != "") data += tmp;
+    num = data.count('(') - data.count(')');   
     if(num == 0)
     {
+        if(tmp == "")
+        {
+            data = "";
+            return;
+        }
         QRegExp sep("[)(]");
         QString flag = data.section(sep,0,0);//取出标识字串
         if(flag == "BIBI_search")//normal search
             B_search(data);
         if(flag == "BIBI_fuzzy")//fuzzy search
-            B_fuzzysearch(data);
+            B_fuzzy(data);
         data = "";
     }
 }
 
 void Recv::B_search(QString mess)
 {
+    qDebug() << "B_search";
     QStringList ret;
     QRegExp sep("[)(]");
     QString word = mess.section(sep,2,2);
     if(word == "0")
     {
-        emit sendMessageSignal(ret);
+        emit searchSignal(ret);
         return;
     }
     ret.push_back(word);
@@ -59,17 +68,21 @@ void Recv::B_search(QString mess)
     example = example.replace("*>",")");
     ret.push_back(example);
     
-    emit sendMessageSignal(ret);
+    emit searchSignal(ret);
 }
 
-void Recv::B_fuzzysearch(QString mess)
+void Recv::B_fuzzy(QString mess)
 {
+    qDebug() << "B_fuzzy";
     QStringList ret;
     QRegExp sep("[)(]");
     mess = mess.section(sep,1,1);
+    mess = mess.replace("<*","(");
+    mess = mess.replace("*>",")");
     if(mess == "0")
     {
-        emit sendMessageSignal(ret);
+        qDebug() << "emit fuzzy";
+        emit fuzzySignal(ret);
         return;
     }
     
@@ -78,6 +91,6 @@ void Recv::B_fuzzysearch(QString mess)
     {
         ret[i] = ret[i].replace(",",":");
     }
-    
-    emit sendMessageSignal(ret);
+    qDebug() << "emit fuzzy";
+    emit fuzzySignal(ret);
 }

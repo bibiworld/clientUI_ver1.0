@@ -19,6 +19,7 @@ void Send::B_fuzzysearch(QTcpSocket *socket,QString word,int len)
         mess += ")";
     }
     mess += word;
+    mess += ")";
     qDebug() << mess;
     socket->write(mess.toStdString().c_str());
     socket->flush();

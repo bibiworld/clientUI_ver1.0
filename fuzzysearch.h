@@ -21,12 +21,13 @@ private:
     QPushButton* button;
     QLabel* label;
     QComboBox* box;
+    Recv* myRecv;
 public:
     fuzzySearch(QWidget* p,MainWindow* m);
     ~fuzzySearch();
 private slots:
     void searchWord();
-    void recvMessage();
+    void recvMessage(QStringList);
 };
 
 #endif // FUZZYSEARCH_H

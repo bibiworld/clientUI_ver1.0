@@ -17,6 +17,7 @@ private:
     QTextEdit* textEdit;
     QPushButton* button;
     QPushButton* addButton;
+    Recv* myRecv;
     QString word;
     QString meaning;
 public:
@@ -24,7 +25,7 @@ public:
     ~search();
 private slots:
     void searchWord();
-    void recvMessage();
+    void recvMessage(QStringList);
     void addWord();
 };
 

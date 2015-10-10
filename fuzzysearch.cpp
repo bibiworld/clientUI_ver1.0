@@ -6,6 +6,8 @@ fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
     parent = m;
+    myRecv = new Recv(parent->socket);
+    connect(myRecv,SIGNAL(fuzzySignal(QStringList)),this,SLOT(recvMessage(QStringList)));
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,260,40);
@@ -33,7 +35,6 @@ fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
     textEdit = new QTextEdit(parent);
     textEdit->show();
     textEdit->setGeometry(100,110,400,280);
-    connect(parent->socket,SIGNAL(readyRead()),this,SLOT(recvMessage()));
 }
 
 fuzzySearch::~fuzzySearch()
@@ -43,6 +44,8 @@ fuzzySearch::~fuzzySearch()
     if(label) delete label;
     if(button) delete button;
     if(box) delete box;
+    disconnect(myRecv,SIGNAL(fuzzySignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    delete myRecv;
 }
 
 void fuzzySearch::searchWord()
@@ -56,34 +59,21 @@ void fuzzySearch::searchWord()
     Send::B_fuzzysearch(parent->socket,lineEdit->text(),index);
 }
 
-void fuzzySearch::recvMessage()
+void fuzzySearch::recvMessage(QStringList data)
 {
-    //code here to be rewrite with class Recv
-    QString mess = parent->socket->readAll();
-    mess = QString(mess);
-    QString out = mess;
-    qDebug() << "hehe";
-    //qDebug() << "recv:" << mess;
-    QRegExp sep("[)(]");
-    mess = mess.section(sep,1,1);
-    //qDebug() << mess;
-    if(mess == "0")
+    QString out;
+    qDebug() << "fuzzyRecv";
+    if(data.size() < 1)
     {
-        textEdit->setText("对不起，没有满足您要求的单词");
-        return;
+        out = "对不起，没有满足您要求的单词";
     }
-    QStringList result = mess.split(";");
-    
-    out = "模糊查询结果:\n";
-    
-    for(int i = 0;i < result.size()-1;i++)
+    else
     {
-        out += result[i].split(",")[0];
-        out += ":  ";
-        out += result[i].split(",")[1];
-        out += "\n";
-        qDebug() << out;
+        for(int i = 0;i < data.size();i++)
+        {
+            out += data[i];
+            out += "\n";
+        }
     }
-    
     textEdit->setText(out);
 }

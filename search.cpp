@@ -8,6 +8,9 @@ search::search(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
     parent = m;
+    myRecv = new Recv(parent->socket);
+    connect(myRecv,SIGNAL(searchSignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,270,40);
@@ -27,7 +30,6 @@ search::search(QWidget* p,MainWindow * m)
     textEdit = new QTextEdit(parent);
     textEdit->show();
     textEdit->setGeometry(100,110,400,280);
-    connect(parent->socket,SIGNAL(readyRead()),this,SLOT(recvMessage()));
 }
 
 search::~search()
@@ -36,6 +38,8 @@ search::~search()
     if(textEdit) delete textEdit;
     if(button) delete button;
     if(addButton) delete addButton;
+    disconnect(myRecv,SIGNAL(searchSignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    delete myRecv;
 }
 
 void search::searchWord()
@@ -50,51 +54,24 @@ void search::searchWord()
     Send::B_search(s,word);
 }
 
-void search::recvMessage()
+void search::recvMessage(QStringList data)
 {
-    //code here to be rewrite with class Recv
-    QString mess = parent->socket->readAll();
-    mess = QString(mess);
-    QRegExp sep("[)(]");
-    QString word = mess.section(sep,2,2);
-    QString soundmark = mess.section(sep,4,4);
-    QStringList soundmarkList = soundmark.split("; ");
-    QString meaning = mess.section(sep,6,6);    
-    QString example = mess.section(sep,8,8);
-    example = example.replace(']',"").replace('|'," ");
-    QStringList exampleList = example.split("[");
-    qDebug() << mess.section(sep,8,8);// << "\n" << mess.section(sep,1,1) << "\n" << meaning << "\n" << example;
     QString out;
-    if(word == "0")
+    qDebug() << "searchRecv";
+    if(data.size() < 1)
     {
-        out += "词库里无您要查找的单词";
+        out = "对不起，词库里无您要查找的单词";
     }
     else
     {
-        if(word != lineEdit->text())
-        {
-            out += "词库里无您要查找的单词，为您查找以下相近单词\n";
-        }
-        out += word;
+        out += data[0];
         out += "\n读音：";
-        for(int i = 0;i < soundmarkList.size();i++)
-        {
-            out += "/";
-            out += soundmarkList[i];
-            out += "/";
-            if(i < soundmarkList.size() - 1)
-                out += " or ";
-        }
+        out += data[1];
         out += "\n释义：";
-        out += meaning;
+        out += data[2];
         out += "\n例句：";
-        for(int i = 0;i < exampleList.size();i++)
-        {
-             out += exampleList[i];
-             out += "\n";
-        }
-        this->word = word;
-        this->meaning = meaning;
+        out += data[3];
+        out += "\n";
     }
     textEdit->setText(out);
 }
