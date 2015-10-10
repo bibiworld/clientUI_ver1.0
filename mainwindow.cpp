@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 this,SLOT(trayiconActivated(QSystemTrayIcon::ActivationReason)));
     trayMenu = new QMenu(this);
     //trayIcon->setToolTip("Bibi");
-    QIcon icon(imagesPath + "/logo.png");
+    QIcon icon(imagesPath + "/icon.png");
     
     maxAction = new QAction(this);
     maxAction->setText("还原");
