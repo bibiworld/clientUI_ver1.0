@@ -7,6 +7,8 @@
 #include <vector>
 #include <QString>
 #include <QLabel>
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 #include "send.h"
 #include "recv.h"
@@ -35,22 +37,30 @@ public:
     QTcpSocket* getSocket();
 private:
     Ui::MainWindow *ui;
-    QToolBar* toolBar;
-    search* mySearch;
-    fuzzySearch* myFuzzySearch;
-    Login* myLogin;
-    Cards* myCards;
+    QSystemTrayIcon* trayIcon;//托盘图标
+    QMenu* trayMenu;
+    QAction* maxAction;
+    QAction* minAction;
+    QAction* quitAction;
+    QToolBar* toolBar;//工具条
+    search* mySearch;//单词查询
+    fuzzySearch* myFuzzySearch;//模糊查询
+    Login* myLogin;//登陆界面
+    Cards* myCards;//单词卡
     QLabel* sentencesLabel;
     vector<QString> eng;
     vector<QString> chi;
     void clearUI();
     
     void closeEvent(QCloseEvent *);
+    void changeEvent(QEvent *);
 private slots:
     void searchWord();
     void fuzzySearchWord();
     void userInfo();
     void printCards();
+    
+    void trayiconActivated(QSystemTrayIcon::ActivationReason reason);
 };
 
 #endif // MAINWINDOW_H

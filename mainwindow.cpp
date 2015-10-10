@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QAction>
 #include <QLineEdit>
 #include <QDebug>
 #include <QTextDocument>
@@ -9,7 +10,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPen>
-//#include <QPageLayout>
+#include <QMessageBox>
 
 const QString imagesPath = ":/images";
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,17 +18,44 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    /*
     this->hide();
-    
     myLogin = new Login(this);
-    
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
     if(!myLogin->findSuccess()) exit(0);
+    */
+    trayIcon = new QSystemTrayIcon(this);
+    connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                this,SLOT(trayiconActivated(QSystemTrayIcon::ActivationReason)));
+    trayMenu = new QMenu(this);
+    //trayIcon->setToolTip("Bibi");
+    //trayIcon->showMessage("Bibi World","Bibi World正在后台运行",QSystemTrayIcon::Information,5000);
+    QIcon icon(imagesPath + "/logo.png");
+    
+    maxAction = new QAction(this);
+    maxAction->setText("还原");
+    connect(maxAction,SIGNAL(triggered(bool)),this,SLOT(showNormal()));
+    minAction = new QAction(this);
+    minAction->setText("最小化");
+    connect(minAction,SIGNAL(triggered(bool)),this,SLOT(hide()));
+    quitAction = new QAction(this);
+    quitAction->setText("退出程序");
+    connect(quitAction,SIGNAL(triggered(bool)),this,SLOT(close()));
+    
+    trayMenu->addAction(maxAction);
+    trayMenu->addAction(minAction);
+    trayMenu->addAction(quitAction);
+    trayIcon->setIcon(icon);
+    trayIcon->setToolTip("Bibi World");
+    trayIcon->setContextMenu(trayMenu);
+    trayIcon->show();
+    
     this->show();
-    socket = myLogin->getSocket();
-    //socket = 0;
+    //socket = myLogin->getSocket();
+    socket = 0;
+    
     mySearch = 0;
     myCards = 0;
     myFuzzySearch = 0;
@@ -110,8 +138,39 @@ void MainWindow::printCards() {
     qDebug() << "print cards!";
 }
 
-void MainWindow::closeEvent(QCloseEvent *)
+void MainWindow::trayiconActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    socket->write("BIBI_quit");
+    switch (reason)
+    {
+    case QSystemTrayIcon::Trigger:
+        //单击托盘图标
+    case QSystemTrayIcon::DoubleClick:
+        //双击托盘图标
+        this->showNormal();
+        this->raise();
+        break;
+    default:
+        break;
+    }
 }
 
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    int ret = QMessageBox::information(this,"退出","你确定要退出Bibi World吗?",QMessageBox::Yes | QMessageBox::No);
+    if(ret == QMessageBox::Yes)
+    {
+        //socket->write("BIBI_quit");
+        exit(0);
+    }
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if(event->type()==QEvent::WindowStateChange){  
+        if(windowState() & Qt::WindowMinimized){  
+            hide();  
+            trayIcon->show();  
+        }
+    }
+    QMainWindow::changeEvent(event);
+}
