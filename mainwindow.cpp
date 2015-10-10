@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIcon->setToolTip("Bibi World");
     trayIcon->setContextMenu(trayMenu);
     trayIcon->show();
-    trayIcon->showMessage("Bibi World","Bibi World已经启动",QSystemTrayIcon::Information,5000);    
+    trayIcon->showMessage("Bibi World","用户" + myLogin->getUserName() + "已经启动",QSystemTrayIcon::Information,5000);    
     
     this->show();
     socket = myLogin->getSocket();

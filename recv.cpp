@@ -35,6 +35,8 @@ void Recv::recvMessage()
             B_search(data);
         if(flag == "BIBI_fuzzy")//fuzzy search
             B_fuzzy(data);
+        if(flag == "BIBI_similar")
+            B_similar(data);
         data = "";
     }
 }
@@ -93,4 +95,23 @@ void Recv::B_fuzzy(QString mess)
     }
     qDebug() << "emit fuzzy";
     emit fuzzySignal(ret);
+}
+
+void Recv::B_similar(QString mess)
+{
+    qDebug() << "B_similar";
+    QStringList ret;
+    QRegExp sep("[)(]");
+    mess = mess.section(sep,1,1);
+    if(mess == "0")
+    {
+        qDebug() << "emit similar";
+        emit similarSignal("",ret);
+        return;
+    }
+    QStringList result = mess.split(":");
+    ret = result[1].split(",");
+    ret.pop_back();
+    qDebug() << "emit similar";
+    emit similarSignal(result[0],ret);
 }

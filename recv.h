@@ -17,6 +17,7 @@ private:
     //process different protocol
     void B_search(QString);
     void B_fuzzy(QString);
+    void B_similar(QString);
 public:
     Recv(QTcpSocket* s,QObject* parent = 0);
     ~Recv();
@@ -25,6 +26,7 @@ private slots:
 signals:
     void searchSignal(QStringList);
     void fuzzySignal(QStringList);
+    void similarSignal(QString,QStringList);
 };
 
 #endif // RECV_H

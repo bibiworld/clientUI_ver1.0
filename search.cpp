@@ -64,13 +64,27 @@ void search::recvMessage(QStringList data)
     }
     else
     {
+        QStringList tmp;
         out += data[0];
         out += "\n读音：";
-        out += data[1];
+        tmp = data[1].split("; ");
+        for(int i = 0;i < tmp.size();i++)
+        {
+            out += "/";
+            out += tmp[i];
+            out += "/";
+            if(i < tmp.size() - 1) out += " or ";
+        }
         out += "\n释义：";
         out += data[2];
         out += "\n例句：";
-        out += data[3];
+        data[3] = data[3].replace("[","");
+        tmp = data[3].split("]");
+        for(int i = 0;i < tmp.size();i++)
+        {
+            out += "\n";
+            out += tmp[i];
+        }
         out += "\n";
     }
     textEdit->setText(out);
