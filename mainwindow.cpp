@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QPen>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 const QString imagesPath = ":/images";
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,20 +19,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    /*
+    
     this->hide();
     myLogin = new Login(this);
     myLogin->show();
     myLogin->exec();
     myLogin->hide();
     if(!myLogin->findSuccess()) exit(0);
-    */
+    
     trayIcon = new QSystemTrayIcon(this);
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this,SLOT(trayiconActivated(QSystemTrayIcon::ActivationReason)));
     trayMenu = new QMenu(this);
     //trayIcon->setToolTip("Bibi");
-    //trayIcon->showMessage("Bibi World","Bibi World正在后台运行",QSystemTrayIcon::Information,5000);
     QIcon icon(imagesPath + "/logo.png");
     
     maxAction = new QAction(this);
@@ -51,10 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIcon->setToolTip("Bibi World");
     trayIcon->setContextMenu(trayMenu);
     trayIcon->show();
+    trayIcon->showMessage("Bibi World","Bibi World已经启动",QSystemTrayIcon::Information,5000);    
     
     this->show();
-    //socket = myLogin->getSocket();
-    socket = 0;
+    socket = myLogin->getSocket();
+    //socket = 0;
     
     mySearch = 0;
     myCards = 0;
@@ -154,13 +155,18 @@ void MainWindow::trayiconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
     int ret = QMessageBox::information(this,"退出","你确定要退出Bibi World吗?",QMessageBox::Yes | QMessageBox::No);
     if(ret == QMessageBox::Yes)
     {
-        //socket->write("BIBI_quit");
+        socket->write("BIBI_quit");
         exit(0);
+    }
+    else
+    {
+        qDebug() << "ignore";
+        event->ignore();
     }
 }
 
@@ -170,6 +176,7 @@ void MainWindow::changeEvent(QEvent *event)
         if(windowState() & Qt::WindowMinimized){  
             hide();  
             trayIcon->show();  
+            trayIcon->showMessage("Bibi World","Bibi World正在后台运行",QSystemTrayIcon::Information,5000);            
         }
     }
     QMainWindow::changeEvent(event);
