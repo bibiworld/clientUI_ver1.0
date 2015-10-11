@@ -116,6 +116,11 @@ QTcpSocket* MainWindow::getSocket()
      return socket;
 }
 
+void MainWindow::sendBubble(QString str)
+{
+    this->trayIcon->showMessage("Bibi World",str);
+}
+
 void MainWindow::searchWord()
 {
     clearUI();
