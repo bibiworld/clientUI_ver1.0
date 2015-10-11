@@ -6,7 +6,7 @@ fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
     parent = m;
-    myRecv = new Recv(parent->socket);
+    myRecv = new Recv(parent->getSocket());
     connect(myRecv,SIGNAL(fuzzySignal(QStringList)),this,SLOT(recvMessage(QStringList)));
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
@@ -56,7 +56,7 @@ void fuzzySearch::searchWord()
         QMessageBox::information(parent,"消息","没有要查询的单词",QMessageBox::Ok);
         return;
     }
-    Send::B_fuzzysearch(parent->socket,lineEdit->text(),index);
+    Send::B_fuzzysearch(parent->getSocket(),lineEdit->text(),index);
 }
 
 void fuzzySearch::recvMessage(QStringList data)
