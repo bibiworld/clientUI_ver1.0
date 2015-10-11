@@ -101,7 +101,7 @@ void Recv::B_fuzzy(QString mess)
 void Recv::B_similar(QString mess)
 {
     qDebug() << "B_similar";
-    QStringList ret;
+    QVector<Word> ret;
     QRegExp sep("[)(]");
     mess = mess.section(sep,1,1);
     if(mess == "0")
@@ -110,9 +110,13 @@ void Recv::B_similar(QString mess)
         emit similarSignal("",ret);
         return;
     }
-    QStringList result = mess.split(":");
-    ret = result[1].split(",");
-    ret.pop_back();
+    QString tmpword = mess.split(":")[0];
+    mess = mess.split(":")[1];
+    QStringList tmp = mess.split(",");
+    for(int i = 0;i < tmp.size()-1;i++)
+    {
+        ret.push_back(Word(tmp[i],"","",""));
+    }
     qDebug() << "emit similar";
-    emit similarSignal(result[0],ret);
+    emit similarSignal(tmpword,ret);
 }

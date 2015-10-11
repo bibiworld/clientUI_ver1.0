@@ -7,7 +7,7 @@ class Word
 {
 public:
     Word(QString _word,QString _soundmark,QString _meaning,QString _example);
-    Word();
+    Word();//构造空单词，空单词定义为word = "0"
     QString getWord();
     QString getSoundmark();
     QString getMeaning();

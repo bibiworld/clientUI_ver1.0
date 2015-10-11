@@ -29,8 +29,7 @@ private slots:
 signals:
     void searchSignal(Word);
     void fuzzySignal(QVector<Word>);
-    void similarSignal(QString, QStringList);
-    //void similarSignal(QString,QVector<Word>);
+    void similarSignal(QString,QVector<Word>);
 };
 
 #endif // RECV_H
