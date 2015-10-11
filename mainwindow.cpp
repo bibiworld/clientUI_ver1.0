@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIcon->setToolTip("Bibi World");
     trayIcon->setContextMenu(trayMenu);
     trayIcon->show();
-    trayIcon->showMessage("Bibi World","用户" + myLogin->getUserName() + "已经启动",QSystemTrayIcon::Information,5000);    
+    trayIcon->showMessage("Bibi World","用户已经登陆",QSystemTrayIcon::Information,5000);    
     
     this->show();
     socket = myLogin->getSocket();
@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction* searchAction = new QAction(QIcon(imagesPath + "/search.png"),tr("查询单词"),this);
     QAction* userAction = new QAction(QIcon(imagesPath + "/user.png"),tr("用户管理"),this);
     QAction* cardAction = new QAction(QIcon(imagesPath + "/cards.png"),tr("单词卡"),this);
-    QAction* fuzzyAction = new QAction(QIcon(imagesPath + "/user.png"),tr("模糊查询"),this);
+    QAction* fuzzyAction = new QAction(QIcon(imagesPath + "/fuzzy.png"),tr("模糊查询"),this);
     
     toolBar->addAction(searchAction);
     toolBar->addAction(fuzzyAction);
@@ -118,7 +118,7 @@ QTcpSocket* MainWindow::getSocket()
 
 void MainWindow::sendBubble(QString str)
 {
-    this->trayIcon->showMessage("Bibi World",str);
+    this->trayIcon->showMessage("Bibi World",str,QSystemTrayIcon::Information,5000);
 }
 
 void MainWindow::searchWord()
@@ -165,7 +165,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     int ret = QMessageBox::information(this,"退出","你确定要退出Bibi World吗?",QMessageBox::Yes | QMessageBox::No);
     if(ret == QMessageBox::Yes)
     {
-        socket->write("BIBI_quit");
+        //socket->write("BIBI_quit");
         exit(0);
     }
     else

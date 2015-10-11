@@ -4,12 +4,14 @@
 #include <QDebug>
 #include <QStringList>
 #include <QMessageBox>
+#include "word.h"
+
 search::search(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
     parent = m;
     myRecv = new Recv(parent->socket);
-    connect(myRecv,SIGNAL(searchSignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    connect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
     
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
@@ -38,7 +40,7 @@ search::~search()
     if(textEdit) delete textEdit;
     if(button) delete button;
     if(addButton) delete addButton;
-    disconnect(myRecv,SIGNAL(searchSignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    disconnect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
     delete myRecv;
 }
 
@@ -54,20 +56,20 @@ void search::searchWord()
     Send::B_search(s,word);
 }
 
-void search::recvMessage(QStringList data)
+void search::recvMessage(Word data)
 {
     QString out;
     qDebug() << "searchRecv";
-    if(data.size() < 1)
+    if(data.getWord() == "0")
     {
         out = "对不起，词库里无您要查找的单词";
     }
     else
     {
         QStringList tmp;
-        out += data[0];
+        out += data.getWord();
         out += "\n读音：";
-        tmp = data[1].split("; ");
+        tmp = data.getSoundmark().split("; ");
         for(int i = 0;i < tmp.size();i++)
         {
             out += "/";
@@ -76,10 +78,9 @@ void search::recvMessage(QStringList data)
             if(i < tmp.size() - 1) out += " or ";
         }
         out += "\n释义：";
-        out += data[2];
+        out += data.getMeaning();
         out += "\n例句：";
-        data[3] = data[3].replace("[","");
-        tmp = data[3].split("]");
+        tmp = data.getExample().replace("[","").split("]");
         for(int i = 0;i < tmp.size();i++)
         {
             out += "\n";

@@ -44,39 +44,39 @@ void Recv::recvMessage()
 void Recv::B_search(QString mess)
 {
     qDebug() << "B_search";
-    QStringList ret;
     QRegExp sep("[)(]");
     QString word = mess.section(sep,2,2);
     if(word == "0")
     {
-        emit searchSignal(ret);
+        emit searchSignal(Word());
         return;
     }
-    ret.push_back(word);
+    //ret.push_back(word);
     
     QString soundmark = mess.section(sep,4,4);
     soundmark = soundmark.replace("<*","(");
     soundmark = soundmark.replace("*>",")");
-    ret.push_back(soundmark);
+    //ret.push_back(soundmark);
     
     QString meaning = mess.section(sep,6,6);  
     meaning = meaning.replace("<*","(");
     meaning = meaning.replace("*>",")");
-    ret.push_back(meaning);
+    //ret.push_back(meaning);
     
     QString example = mess.section(sep,8,8);
     example = example.replace('|'," ");
     example = example.replace("<*","(");
     example = example.replace("*>",")");
-    ret.push_back(example);
+    //ret.push_back(example);
     
-    emit searchSignal(ret);
+    emit searchSignal(Word(word,soundmark,meaning,example));
 }
 
 void Recv::B_fuzzy(QString mess)
 {
     qDebug() << "B_fuzzy";
-    QStringList ret;
+    QVector<Word> ret;
+    QStringList data;
     QRegExp sep("[)(]");
     mess = mess.section(sep,1,1);
     mess = mess.replace("<*","(");
@@ -88,10 +88,11 @@ void Recv::B_fuzzy(QString mess)
         return;
     }
     
-    ret = mess.split(";");
-    for(int i = 0;i < ret.size()-1;i++)
+    data = mess.split(";");
+    for(int i = 0;i < data.size()-1;i++)
     {
-        ret[i] = ret[i].replace(",",":");
+        //data[i] = data[i].replace(",",":");
+        ret.push_back(Word(data[i].split(",")[0],"",data[i].split(",")[1],""));
     }
     qDebug() << "emit fuzzy";
     emit fuzzySignal(ret);

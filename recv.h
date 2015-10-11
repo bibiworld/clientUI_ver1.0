@@ -4,6 +4,9 @@
 #include <QTcpSocket>
 #include <QString>
 #include <QStringList>
+#include <QVector>
+#include "word.h"
+#include "wordcontainer.h"
 
 class Recv : public QObject
 {
@@ -24,9 +27,10 @@ public:
 private slots:
     void recvMessage();    
 signals:
-    void searchSignal(QStringList);
-    void fuzzySignal(QStringList);
-    void similarSignal(QString,QStringList);
+    void searchSignal(Word);
+    void fuzzySignal(QVector<Word>);
+    void similarSignal(QString, QStringList);
+    //void similarSignal(QString,QVector<Word>);
 };
 
 #endif // RECV_H

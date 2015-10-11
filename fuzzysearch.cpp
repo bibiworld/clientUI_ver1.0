@@ -7,7 +7,7 @@ fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
 {
     parent = m;
     myRecv = new Recv(parent->getSocket());
-    connect(myRecv,SIGNAL(fuzzySignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    connect(myRecv,SIGNAL(fuzzySignal(QVector<Word>)),this,SLOT(recvMessage(QVector<Word>)));
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,260,40);
@@ -44,7 +44,7 @@ fuzzySearch::~fuzzySearch()
     if(label) delete label;
     if(button) delete button;
     if(box) delete box;
-    disconnect(myRecv,SIGNAL(fuzzySignal(QStringList)),this,SLOT(recvMessage(QStringList)));
+    disconnect(myRecv,SIGNAL(fuzzySignal(QVector<Word>)),this,SLOT(recvMessage(QVector<Word>)));
     delete myRecv;
 }
 
@@ -59,7 +59,7 @@ void fuzzySearch::searchWord()
     Send::B_fuzzysearch(parent->getSocket(),lineEdit->text(),index);
 }
 
-void fuzzySearch::recvMessage(QStringList data)
+void fuzzySearch::recvMessage(QVector<Word> data)
 {
     QString out;
     qDebug() << "fuzzyRecv";
@@ -71,7 +71,9 @@ void fuzzySearch::recvMessage(QStringList data)
     {
         for(int i = 0;i < data.size();i++)
         {
-            out += data[i];
+            out += data[i].getWord();
+            out += ":";
+            out += data[i].getMeaning();
             out += "\n";
         }
     }

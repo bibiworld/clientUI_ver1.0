@@ -8,7 +8,9 @@
 #include <QtNetwork/QTcpSocket>
 #include <QComboBox>
 #include <QLabel>
+#include <QVector>
 #include "mainwindow.h"
+#include "word.h"
 
 class MainWindow;
 class fuzzySearch : public QDialog
@@ -27,7 +29,7 @@ public:
     ~fuzzySearch();
 private slots:
     void searchWord();
-    void recvMessage(QStringList);
+    void recvMessage(QVector<Word>);
 };
 
 #endif // FUZZYSEARCH_H

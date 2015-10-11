@@ -1,7 +1,7 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include <windows.h>
+//#include <windows.h>
 #include <QDialog>
 #include <QLabel>
 #include <QPushButton>

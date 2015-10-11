@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     cards.cpp \
     fuzzysearch.cpp \
     send.cpp \
-    recv.cpp
+    recv.cpp \
+    word.cpp \
+    wordcontainer.cpp
 
 HEADERS  += mainwindow.h \
     search.h \
@@ -29,7 +31,9 @@ HEADERS  += mainwindow.h \
     cards.h \
     fuzzysearch.h \
     send.h \
-    recv.h
+    recv.h \
+    word.h \
+    wordcontainer.h
 
 FORMS    += mainwindow.ui
 

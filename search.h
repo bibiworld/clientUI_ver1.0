@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QtNetwork/QTcpSocket>
 #include "mainwindow.h"
+#include "word.h"
 
 class MainWindow;
 class search : public QDialog
@@ -25,7 +26,7 @@ public:
     ~search();
 private slots:
     void searchWord();
-    void recvMessage(QStringList);
+    void recvMessage(Word);
     void addWord();
 };
 
