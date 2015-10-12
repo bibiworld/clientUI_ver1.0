@@ -1,4 +1,5 @@
 #include "wordcontainer.h"
+#include <QTextStream>
 
 wordContainer::wordContainer(QObject *parent):QObject(parent)
 {
@@ -8,12 +9,19 @@ wordContainer::wordContainer(QObject *parent):QObject(parent)
 
 void wordContainer::readin(QString _fileName)
 {
-    QFile fileObj;
-    //fileObj.open(_fileName,QIODevice::ReadOnly);
-    while(!fileObj.atEnd())
+    QFile fileObj( _fileName );
+    wordList.clear();
+    if ( fileObj.open( QIODevice::ReadOnly ) ) 
     {
-        //fileObj.readLine()
-    }
+        QTextStream stream( &fileObj );
+        QString line;
+        while ( !stream.atEnd() ) 
+        {
+            line = stream.readLine(); // 不包括“\n”的一行文本
+            wordList.push_back(Word(line.split("|")[0],"",line.split("|")[1],""));
+        }
+        fileObj.close();
+    }    
     readFlag = wordContainer::HAVE_READ;
 }
 
