@@ -16,6 +16,10 @@ search::search(QWidget* p,MainWindow * m)
     lineEdit = new QLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,270,40);
+    lineEdit->setInputMask("AAAAAAAAAAAAAAAA");
+    editingFinishedSlot();
+    connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(editingFinishedSlot()));
+    connect(lineEdit,SIGNAL(textEdited(QString)),this,SLOT(textEditedSlot()));
     
     button = new QPushButton(parent);
     button->show();
@@ -103,4 +107,26 @@ void search::addWord()
     this->word = "";
     this->meaning = "";
     QMessageBox::information(this,"消息","添加成功",QMessageBox::Ok);
+}
+
+void search::editingFinishedSlot()
+{
+    if(this->lineEdit->text() == "")
+    {
+        QPalette pal =lineEdit->QPalette();
+        pal->setColor(QPalette::Text,QColor(211,211,211));
+        lintEdit->setPalette(pal);
+        lineEdit->setText("请输入要查询的单词");
+    }
+    else
+    {
+        searchWord();
+    }
+}
+
+void search::textEditedSlot()
+{
+    QPalette pal =lineEdit->QPalette();
+    pal->setColor(QPalette::Text,QColor(211,211,211));
+    lintEdit->setPalette(pal);
 }

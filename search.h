@@ -28,6 +28,8 @@ private slots:
     void searchWord();
     void recvMessage(Word);
     void addWord();
+    void editingFinishedSlot();
+    void textEditedSlot();
 };
 
 #endif // SEARCH
