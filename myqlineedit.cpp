@@ -2,6 +2,10 @@
 
 myQLineEdit::myQLineEdit(QWidget *parent) : QLineEdit(parent)
 {
+    QFont font = QFont();
+    font.setPointSize(20);
+    this->setFont(font);
+    
     QPalette pal = this->palette();
     pal.setColor(QPalette::Text,QColor(211,211,211));
     this->setPalette(pal);

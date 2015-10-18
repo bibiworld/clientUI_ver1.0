@@ -1,6 +1,7 @@
 #ifndef QLINEEDIT
 #define QLINEEDIT
 #include <QLineEdit>
+#include <QFont>
 
 class myQLineEdit : public QLineEdit
 {
