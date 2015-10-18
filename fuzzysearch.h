@@ -11,6 +11,7 @@
 #include <QVector>
 #include "mainwindow.h"
 #include "word.h"
+#include "myqlineedit.h"
 
 class MainWindow;
 class fuzzySearch : public QDialog
@@ -18,7 +19,7 @@ class fuzzySearch : public QDialog
     Q_OBJECT
 private:
     MainWindow* parent;
-    QLineEdit* lineEdit;
+    myQLineEdit* lineEdit;
     QTextEdit* textEdit;
     QPushButton* button;
     QLabel* label;
@@ -30,6 +31,7 @@ public:
 private slots:
     void searchWord();
     void recvMessage(QVector<Word>);
+    void editingFinishedSlot();
 };
 
 #endif // FUZZYSEARCH_H

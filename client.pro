@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     send.cpp \
     recv.cpp \
     word.cpp \
-    wordcontainer.cpp
+    wordcontainer.cpp \
+    myqlineedit.cpp
 
 HEADERS  += mainwindow.h \
     search.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     send.h \
     recv.h \
     word.h \
-    wordcontainer.h
+    wordcontainer.h \
+    myqlineedit.h
 
 FORMS    += mainwindow.ui
 

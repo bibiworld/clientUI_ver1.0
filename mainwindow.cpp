@@ -165,7 +165,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     int ret = QMessageBox::information(this,"退出","你确定要退出Bibi World吗?",QMessageBox::Yes | QMessageBox::No);
     if(ret == QMessageBox::Yes)
     {
-        //socket->write("BIBI_quit");
+        socket->write("BIBI_quit");
         exit(0);
     }
     else

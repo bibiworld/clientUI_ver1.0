@@ -7,6 +7,7 @@
 #include <QtNetwork/QTcpSocket>
 #include "mainwindow.h"
 #include "word.h"
+#include "myqlineedit.h"
 
 class MainWindow;
 class search : public QDialog
@@ -14,7 +15,7 @@ class search : public QDialog
     Q_OBJECT
 private:
     MainWindow* parent;
-    QLineEdit* lineEdit;
+    myQLineEdit* lineEdit;
     QTextEdit* textEdit;
     QPushButton* button;
     QPushButton* addButton;
@@ -29,7 +30,6 @@ private slots:
     void recvMessage(Word);
     void addWord();
     void editingFinishedSlot();
-    void textEditedSlot();
 };
 
 #endif // SEARCH

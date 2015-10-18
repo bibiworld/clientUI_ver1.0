@@ -8,9 +8,10 @@ fuzzySearch::fuzzySearch(QWidget* p,MainWindow * m)
     parent = m;
     myRecv = new Recv(parent->getSocket());
     connect(myRecv,SIGNAL(fuzzySignal(QVector<Word>)),this,SLOT(recvMessage(QVector<Word>)));
-    lineEdit = new QLineEdit(parent);
+    lineEdit = new myQLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,260,40);
+    connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(editingFinishedSlot()));
     
     label = new QLabel(parent);
     label->show();
@@ -78,4 +79,19 @@ void fuzzySearch::recvMessage(QVector<Word> data)
         }
     }
     textEdit->setText(out);
+}
+
+void fuzzySearch::editingFinishedSlot()
+{
+    if(this->lineEdit->text() == "")
+    {
+        QPalette pal =lineEdit->palette();
+        pal.setColor(QPalette::Text,QColor(211,211,211));
+        lineEdit->setPalette(pal);
+        lineEdit->setText("请输入要查询的单词");
+    }
+    else
+    {
+        searchWord();
+    }
 }

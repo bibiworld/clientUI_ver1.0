@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QStringList>
 #include <QMessageBox>
+#include <QPalette>
 #include "word.h"
 
 search::search(QWidget* p,MainWindow * m)
@@ -13,13 +14,14 @@ search::search(QWidget* p,MainWindow * m)
     myRecv = new Recv(parent->socket);
     connect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
     
-    lineEdit = new QLineEdit(parent);
+    lineEdit = new myQLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,270,40);
-    lineEdit->setInputMask("AAAAAAAAAAAAAAAA");
+    //lineEdit->setInputMask("AAAAAAAAAAAAAAAA");
     editingFinishedSlot();
     connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(editingFinishedSlot()));
-    connect(lineEdit,SIGNAL(textEdited(QString)),this,SLOT(textEditedSlot()));
+    //connect(lineEdit,SIGNAL(textChanged(QString)),this,SLOT(textEditedSlot()));
+    //connect(lineEdit,SIGNAL(textEdited(QString)),this,SLOT(textEditedSlot()));
     
     button = new QPushButton(parent);
     button->show();
@@ -113,20 +115,13 @@ void search::editingFinishedSlot()
 {
     if(this->lineEdit->text() == "")
     {
-        QPalette pal =lineEdit->QPalette();
-        pal->setColor(QPalette::Text,QColor(211,211,211));
-        lintEdit->setPalette(pal);
+        QPalette pal =lineEdit->palette();
+        pal.setColor(QPalette::Text,QColor(211,211,211));
+        lineEdit->setPalette(pal);
         lineEdit->setText("请输入要查询的单词");
     }
     else
     {
         searchWord();
     }
-}
-
-void search::textEditedSlot()
-{
-    QPalette pal =lineEdit->QPalette();
-    pal->setColor(QPalette::Text,QColor(211,211,211));
-    lintEdit->setPalette(pal);
 }
