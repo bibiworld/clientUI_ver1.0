@@ -14,17 +14,21 @@ class wordContainer : public QObject
 public:
     enum{HAVE_READ,NOT_READ};
     wordContainer(QObject* parent = 0);
-    void readin(QString _fileName = "wordList.txt");
     int checkRead();
     QVector<Word> getWords();
     void addWord(Word _word);
     void deleteWord(int index);
+public slots:
+    void readin(QString _fileName);
+    void readin();
 private:
     int readFlag;
     QVector<Word> wordList;
     Recv* myRecv;
 private slots:
     void recvMessage(QVector<Word>);
+signals:
+    void updateWordSignal();
 };
 
 #endif // WORDCONTAINER

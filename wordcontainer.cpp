@@ -23,6 +23,12 @@ void wordContainer::readin(QString _fileName)
         fileObj.close();
     }    
     readFlag = wordContainer::HAVE_READ;
+    emit updateWordSignal();
+}
+
+void wordContainer::readin()
+{
+    readin("wordList.txt");
 }
 
 int wordContainer::checkRead()

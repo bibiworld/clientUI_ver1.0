@@ -1,7 +1,5 @@
 # Bibi World客户端编写说明
 
-																evan69于10.19夜
-
 ## 一、Git
 
 项目地址 : [**https://github.com/bibiworld/clientUI_ver1.0**](https://github.com/bibiworld/clientUI_ver1.0)
@@ -37,7 +35,7 @@ SSH clone URL : **git@github.com:bibiworld/clientUI_ver1.0.git**
     
 3. **Recv**
 
-	Recv类可以将服务器传输过来的的字符串转换为客户端用到的C++对象。使用方法是信号槽机制，Recv类根据协议提供若干信号，使用时首先在类里声明一个Recv指针，然后将所需的信号与合适的槽关联起来。注意需要在析构函数中显式delete这个指针，否则可能出现问题。目前提供的信号如下：
+	Recv类可以将服务器传输过来的的字符串转换为客户端用到的C++对象。使用方法是信号槽机制，Recv类根据协议提供若干信号，使用时首先在类里声明一个Recv指针，然后将所需的信号与合适的槽关联起来。注意需要在析构函数中需要首先disconnect之前的信号槽关联，然后再显式delete这个指针，否则可能出现问题。目前提供的信号如下：
 	
     - `void searchSignal(Word);` 获取查询单词的结果，回传一个Word类对象
     - `void fuzzySignal(QVector<Word>);` 获取模糊查询的结果，回传一个Word类对象的向量
@@ -61,5 +59,6 @@ SSH clone URL : **git@github.com:bibiworld/clientUI_ver1.0.git**
 
 ## 五、加油
 
+望编写客户端的各位加油
 
-全文完
+**以上**
