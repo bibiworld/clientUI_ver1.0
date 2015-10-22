@@ -1,5 +1,6 @@
 #include "wordcontainer.h"
 #include <QTextStream>
+#include <QMessageBox>
 
 wordContainer::wordContainer(QObject *parent):QObject(parent)
 {
@@ -36,19 +37,26 @@ int wordContainer::checkRead()
     return readFlag;
 }
 
-QVector<Word> wordContainer::getWords()
+QVector<Word> & wordContainer::getWords()
 {
     return wordList;
 }
 
-void wordContainer::addWord(Word _word)
+void wordContainer::addWord(QWidget* parent,Word _word)//static
 {
-    wordList.push_back(_word);
-}
-
-void wordContainer::deleteWord(int index)
-{
-    wordList.remove(index);
+    QFile fileObj("wordBook.txt");
+    if ( fileObj.open( QIODevice::WriteOnly | QIODevice::Append ) ) 
+    {
+        QTextStream stream( &fileObj );
+        QString line = _word.getWord() + "|" + _word.getMeaning() + "\n";
+        stream >> line;
+        fileObj.close();
+    }    
+    else
+    {
+        QMessageBox::warning(parent,"添加到单词本失败","未能添加到本地的单词本文件wordBook.txt，请检查文件是否完好",QMessageBox::Ok);
+        //QMessageBox::
+    }
 }
 
 void wordContainer::recvMessage(QVector<Word>)

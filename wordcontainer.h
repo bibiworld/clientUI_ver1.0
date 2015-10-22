@@ -15,9 +15,8 @@ public:
     enum{HAVE_READ,NOT_READ};
     wordContainer(QObject* parent = 0);
     int checkRead();
-    QVector<Word> getWords();
-    void addWord(Word _word);
-    void deleteWord(int index);
+    QVector<Word> & getWords();
+    static void addWord(QWidget *parent, Word _word);//直接在文件末尾加上一个单词
 public slots:
     void readin(QString _fileName);
     void readin();

@@ -16,6 +16,7 @@
 #include "fuzzysearch.h"
 #include "login.h"
 #include "cards.h"
+#include "wordbook.h"
 
 using std::vector;
 
@@ -25,6 +26,7 @@ class MainWindow;
 class search;
 class fuzzySearch;
 class Cards;
+class wordBook;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -50,6 +52,7 @@ private:
     fuzzySearch* myFuzzySearch;//模糊查询
     Login* myLogin;//登陆界面
     Cards* myCards;//单词卡
+    wordBook* myWordBook;//单词本
     QLabel* sentencesLabel;//每日好句
     vector<QString> eng;
     vector<QString> chi;
@@ -61,6 +64,7 @@ private slots:
     void fuzzySearchWord();//模糊查询界面
     void userInfo();//用户界面
     void printCards();//打印单词卡
+    void showWordBook();//单词本
     void clearUI();//清除UI
     void trayiconActivated(QSystemTrayIcon::ActivationReason reason);//托盘点击事件
 };

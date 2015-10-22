@@ -23,9 +23,11 @@ private:
     Recv* myRecv;
     QLabel* label;
     QPushButton* readButton;
+    QPushButton* deleteButton;
 private slots:
-    void recvMessage(Word);
+    void recvMessage(Word data);
     void showWords();
+    void deleteWord();
     void searchWord(QModelIndex);
 };
 

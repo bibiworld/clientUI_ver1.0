@@ -31,9 +31,15 @@ search::search(QWidget* p,MainWindow * m)
     
     addButton = new QPushButton(parent);
     addButton->show();
-    addButton->setGeometry(440,60,60,40);
-    addButton->setText("收藏单词");
+    addButton->setGeometry(440,60,60,20);
+    addButton->setText("添加到打印序列");
     connect(addButton,SIGNAL(clicked(bool)),this,SLOT(addWord()));
+    
+    bookButton = new QPushButton(parent);
+    bookButton->show();
+    bookButton->setGeometry(440,80,60,20);
+    bookButton->setText("添加到单词本");
+    connect(bookButton,SIGNAL(clicked(bool)),this,SLOT(addWordtoBook()));
     
     textEdit = new QTextEdit(parent);
     textEdit->show();
@@ -93,6 +99,8 @@ void search::recvMessage(Word data)
             out += tmp[i];
         }
         out += "\n";
+        this->word = data.getWord();
+        this->meaning = data.getMeaning();
     }
     textEdit->setText(out);
 }
@@ -109,6 +117,11 @@ void search::addWord()
     this->word = "";
     this->meaning = "";
     QMessageBox::information(this,"消息","添加成功",QMessageBox::Ok);
+}
+
+void search::addWordtoBook()
+{
+    wordContainer::addWord(parent,Word(this->word,"",this->meaning,""));
 }
 
 void search::editingFinishedSlot()

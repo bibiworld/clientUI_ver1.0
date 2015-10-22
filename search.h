@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QDialog>
 #include <QtNetwork/QTcpSocket>
+#include <QPushButton>
 #include "mainwindow.h"
 #include "word.h"
 #include "myqlineedit.h"
@@ -19,6 +20,7 @@ private:
     QTextEdit* textEdit;
     QPushButton* button;
     QPushButton* addButton;
+    QPushButton* bookButton;
     Recv* myRecv;
     QString word;
     QString meaning;
@@ -29,6 +31,7 @@ private slots:
     void searchWord();
     void recvMessage(Word);
     void addWord();
+    void addWordtoBook();
     void editingFinishedSlot();
 };
 

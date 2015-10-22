@@ -13,22 +13,22 @@ Word::Word()
     word = "0";
 }
 
-QString Word::getWord()
+QString Word::getWord() const
 {
     return word;
 }
 
-QString Word::getSoundmark()
+QString Word::getSoundmark() const
 {
     return soundmark;
 }
 
-QString Word::getMeaning()
+QString Word::getMeaning() const
 {
     return meaning;
 }
 
-QString Word::getExample()
+QString Word::getExample() const
 {
     return example;
 }

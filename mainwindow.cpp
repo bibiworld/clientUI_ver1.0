@@ -73,11 +73,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction* userAction = new QAction(QIcon(imagesPath + "/user.png"),tr("用户管理"),this);
     QAction* cardAction = new QAction(QIcon(imagesPath + "/cards.png"),tr("单词卡"),this);
     QAction* fuzzyAction = new QAction(QIcon(imagesPath + "/fuzzy.png"),tr("模糊查询"),this);
+    QAction* bookAction = new QAction(QIcon(imagesPath + "/fuzzy.png"),tr("单词本"),this);
     
     toolBar->addAction(searchAction);
     toolBar->addAction(fuzzyAction);
     toolBar->addAction(cardAction);
     toolBar->addAction(userAction);
+    toolBar->addAction(bookAction);
     
     this->addToolBar(Qt::TopToolBarArea,toolBar);
     
@@ -85,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(fuzzyAction,SIGNAL(triggered(bool)),this,SLOT(fuzzySearchWord()));
     connect(userAction,SIGNAL(triggered(bool)),this,SLOT(userInfo()));
     connect(cardAction,SIGNAL(triggered(bool)),this,SLOT(printCards()));
+    connect(bookAction,SIGNAL(triggered(bool)),this,SLOT(showWordBook()));
 }
 
 MainWindow::~MainWindow()
@@ -108,6 +111,11 @@ void MainWindow::clearUI()
     {
         delete myFuzzySearch;
         myFuzzySearch = 0;
+    }
+    if(myWordBook != 0)
+    {
+        delete myWordBook;
+        myWordBook = 0;
     }
 }
 
@@ -142,6 +150,12 @@ void MainWindow::printCards() {
     clearUI();
     myCards = new Cards(this);
     qDebug() << "print cards!";
+}
+
+void MainWindow::showWordBook()
+{
+    clearUI();
+    myWordBook = new wordBook(this,0);
 }
 
 void MainWindow::trayiconActivated(QSystemTrayIcon::ActivationReason reason)

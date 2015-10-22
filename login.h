@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QThread>
 
-#define SERVER_IP "59.66.131.44"
+#define SERVER_IP "59.66.131.88"
 #define SERVER_PORT 1234 
 #define LOGIN 1
 #define REGISTER 2
