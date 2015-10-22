@@ -35,6 +35,13 @@ void Send::B_similar(QTcpSocket *socket, QString word)
     socket->flush();
 }
 
+void Send::B_sentence(QTcpSocket *socket)
+{
+    qDebug() << "BIBI_sentence";
+    socket->write("BIBI_sentence()");
+    socket->flush();
+}
+
 void Send::B_quit(QTcpSocket *socket)
 {
     qDebug() << "BIBI_quit";

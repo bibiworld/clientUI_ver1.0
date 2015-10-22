@@ -13,7 +13,7 @@ search::search(QWidget* p,MainWindow * m)
     parent = m;
     myRecv = new Recv(parent->socket);
     connect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
-    
+    qDebug() << "finish connect";
     lineEdit = new myQLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,270,40);
@@ -31,13 +31,13 @@ search::search(QWidget* p,MainWindow * m)
     
     addButton = new QPushButton(parent);
     addButton->show();
-    addButton->setGeometry(440,60,60,20);
-    addButton->setText("添加到打印序列");
+    addButton->setGeometry(425,60,75,20);
+    addButton->setText("添加打印序列");
     connect(addButton,SIGNAL(clicked(bool)),this,SLOT(addWord()));
     
     bookButton = new QPushButton(parent);
     bookButton->show();
-    bookButton->setGeometry(440,80,60,20);
+    bookButton->setGeometry(425,80,75,20);
     bookButton->setText("添加到单词本");
     connect(bookButton,SIGNAL(clicked(bool)),this,SLOT(addWordtoBook()));
     
@@ -52,6 +52,8 @@ search::~search()
     if(textEdit) delete textEdit;
     if(button) delete button;
     if(addButton) delete addButton;
+    if(bookButton) delete bookButton;
+    qDebug() << "disconnect";
     disconnect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
     delete myRecv;
 }
@@ -102,6 +104,8 @@ void search::recvMessage(Word data)
         this->word = data.getWord();
         this->meaning = data.getMeaning();
     }
+    if(out == "") return;
+    qDebug() << out;
     textEdit->setText(out);
 }
 
@@ -133,7 +137,7 @@ void search::editingFinishedSlot()
         lineEdit->setPalette(pal);
         lineEdit->setText("请输入要查询的单词");
     }
-    else
+    else if (lineEdit->text() != "请输入要查询的单词")
     {
         searchWord();
     }

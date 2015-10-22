@@ -20,8 +20,13 @@ void Recv::recvMessage()
     QString tmp = socket->readAll();
     //if(tmp == "") return;
     qDebug() << "recv:" << tmp;
+    if(tmp == "") {
+        qDebug() << "blank message";
+        return;
+    }
     if(tmp != "") data += tmp;
     num = data.count('(') - data.count(')');   
+    
     if(num == 0)
     {
         if(tmp == "")
@@ -37,6 +42,8 @@ void Recv::recvMessage()
             B_fuzzy(data);
         if(flag == "BIBI_similar")
             B_similar(data);
+        if(flag == "BIBI_sentence")
+            B_sentence(data);
         data = "";
     }
 }
@@ -68,7 +75,7 @@ void Recv::B_search(QString mess)
     example = example.replace("<*","(");
     example = example.replace("*>",")");
     //ret.push_back(example);
-    
+    qDebug() << "emit searchllllll";
     emit searchSignal(Word(word,soundmark,meaning,example));
 }
 
@@ -119,4 +126,15 @@ void Recv::B_similar(QString mess)
     }
     qDebug() << "emit similar";
     emit similarSignal(tmpword,ret);
+}
+
+void Recv::B_sentence(QString mess)
+{
+    QRegExp sep("[)(]");
+    QString sentence = mess.section(sep,2,2);
+    sentence = sentence.replace("<*","(").replace("*>",")");
+    QString sentenceMeaning = mess.section(sep,3,3);
+    qDebug() << sentenceMeaning;
+    qDebug() << "emit sentence";
+    emit sentenceSignal(sentence,sentenceMeaning);
 }

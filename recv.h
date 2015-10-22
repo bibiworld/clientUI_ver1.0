@@ -21,6 +21,7 @@ private:
     void B_search(QString);
     void B_fuzzy(QString);
     void B_similar(QString);
+    void B_sentence(QString);
 public:
     Recv(QTcpSocket* s,QObject* parent = 0);
     ~Recv();
@@ -30,6 +31,7 @@ signals:
     void searchSignal(Word);
     void fuzzySignal(QVector<Word>);
     void similarSignal(QString,QVector<Word>);
+    void sentenceSignal(QString,QString);
 };
 
 #endif // RECV_H

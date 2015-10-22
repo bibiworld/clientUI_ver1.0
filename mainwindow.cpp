@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     myLogin->exec();
     myLogin->hide();
     if(!myLogin->findSuccess()) exit(0);
-    
+    socket = myLogin->getSocket();
+    myRecv = new Recv(socket);
     trayIcon = new QSystemTrayIcon(this);
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this,SLOT(trayiconActivated(QSystemTrayIcon::ActivationReason)));
@@ -54,16 +55,17 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIcon->showMessage("Bibi World","用户已经登陆",QSystemTrayIcon::Information,5000);    
     
     this->show();
-    socket = myLogin->getSocket();
+    
     //socket = 0;
     
     mySearch = 0;
     myCards = 0;
     myFuzzySearch = 0;
+    myWordBook = 0;
     
     sentencesLabel = new QLabel(this);
-    sentencesLabel->setMargin(30);
-    sentencesLabel->setGeometry(80,410,440,80);
+    //sentencesLabel->setMargin(30);
+    sentencesLabel->setGeometry(80,410,440,50);
     sentencesLabel->setText("此处将显示每日好句");
     sentencesLabel->show();
     
@@ -88,10 +90,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(userAction,SIGNAL(triggered(bool)),this,SLOT(userInfo()));
     connect(cardAction,SIGNAL(triggered(bool)),this,SLOT(printCards()));
     connect(bookAction,SIGNAL(triggered(bool)),this,SLOT(showWordBook()));
+    
+    connect(myRecv,SIGNAL(sentenceSignal(QString,QString)),this,SLOT(showSentence(QString,QString)));
+    Send::B_sentence(socket);
 }
 
 MainWindow::~MainWindow()
 {
+    disconnect(myRecv,SIGNAL(sentenceSignal(QString,QString)),this,SLOT(showSentence(QString,QString)));    
+    delete myRecv;
     delete ui;
 }
 
@@ -156,6 +163,11 @@ void MainWindow::showWordBook()
 {
     clearUI();
     myWordBook = new wordBook(this,0);
+}
+
+void MainWindow::showSentence(QString _sentence, QString _meaning)
+{
+    sentencesLabel->setText("每日一句:\n" + _sentence + "\n" + _meaning);
 }
 
 void MainWindow::trayiconActivated(QSystemTrayIcon::ActivationReason reason)

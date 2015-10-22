@@ -11,6 +11,7 @@ public:
     static void B_search(QTcpSocket* socket,QString word);
     static void B_fuzzysearch(QTcpSocket* socket,QString word,int len = 0);
     static void B_similar(QTcpSocket* socket,QString word);
+    static void B_sentence(QTcpSocket* socket);
     static void B_quit(QTcpSocket* socket);
 };
 

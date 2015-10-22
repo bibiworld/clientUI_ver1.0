@@ -43,6 +43,7 @@ private:
     Ui::MainWindow *ui;
     QTcpSocket* socket;//socket指针
     QSystemTrayIcon* trayIcon;//托盘图标
+    Recv* myRecv;//class Recv
     QMenu* trayMenu;//托盘菜单
     QAction* maxAction;//还原
     QAction* minAction;//最小化
@@ -67,6 +68,7 @@ private slots:
     void showWordBook();//单词本
     void clearUI();//清除UI
     void trayiconActivated(QSystemTrayIcon::ActivationReason reason);//托盘点击事件
+    void showSentence(QString,QString);//显示每日一句
 };
 
 #endif // MAINWINDOW_H

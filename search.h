@@ -27,7 +27,7 @@ private:
 public:
     search(QWidget* p,MainWindow* m);
     ~search();
-private slots:
+public slots:
     void searchWord();
     void recvMessage(Word);
     void addWord();
