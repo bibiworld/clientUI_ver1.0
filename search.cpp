@@ -11,17 +11,18 @@ search::search(QWidget* p,MainWindow * m)
     : QDialog(p)
 {
     parent = m;
-    myRecv = new Recv(parent->socket);
-    connect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
-    qDebug() << "finish connect";
+    this->myRecv = new Recv(parent->getSocket());
+    connect(this->myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
+    qDebug() << "finish connect " << this->myRecv;
     lineEdit = new myQLineEdit(parent);
     lineEdit->show();
     lineEdit->setGeometry(100,60,270,40);
     //lineEdit->setInputMask("AAAAAAAAAAAAAAAA");
-    editingFinishedSlot();
-    connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(editingFinishedSlot()));
+    //editingFinishedSlot();
+    //connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(editingFinishedSlot()));
     //connect(lineEdit,SIGNAL(textChanged(QString)),this,SLOT(textEditedSlot()));
     //connect(lineEdit,SIGNAL(textEdited(QString)),this,SLOT(textEditedSlot()));
+    connect(lineEdit,SIGNAL(pressEnterSignal()),this,SLOT(searchWord()));
     
     button = new QPushButton(parent);
     button->show();
@@ -53,7 +54,6 @@ search::~search()
     if(button) delete button;
     if(addButton) delete addButton;
     if(bookButton) delete bookButton;
-    qDebug() << "disconnect";
     disconnect(myRecv,SIGNAL(searchSignal(Word)),this,SLOT(recvMessage(Word)));
     delete myRecv;
 }
@@ -68,6 +68,7 @@ void search::searchWord()
     }
     QTcpSocket* s = parent->getSocket();
     Send::B_search(s,word);
+    //textEdit->setText("");
 }
 
 void search::recvMessage(Word data)

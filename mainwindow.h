@@ -11,12 +11,12 @@
 #include <QMenu>
 
 #include "send.h"
-#include "recv.h"
 #include "search.h"
 #include "fuzzysearch.h"
 #include "login.h"
 #include "cards.h"
 #include "wordbook.h"
+#include "sentence.h"
 
 using std::vector;
 
@@ -36,14 +36,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QTcpSocket* getSocket();//获取通信用的socket指针
-    
+    QLabel* sentencesLabel;//每日好句
 public slots:
     void sendBubble(QString);//托盘显示气泡的接口
 private:
     Ui::MainWindow *ui;
     QTcpSocket* socket;//socket指针
     QSystemTrayIcon* trayIcon;//托盘图标
-    Recv* myRecv;//class Recv
+    Sentence* mySentence;//每日好句
     QMenu* trayMenu;//托盘菜单
     QAction* maxAction;//还原
     QAction* minAction;//最小化
@@ -54,7 +54,6 @@ private:
     Login* myLogin;//登陆界面
     Cards* myCards;//单词卡
     wordBook* myWordBook;//单词本
-    QLabel* sentencesLabel;//每日好句
     vector<QString> eng;
     vector<QString> chi;
     

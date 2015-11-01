@@ -26,6 +26,7 @@ void Recv::recvMessage()
     }
     if(tmp != "") data += tmp;
     num = data.count('(') - data.count(')');   
+    emit this->sentenceSignal(QString("f"),QString("f"));
     
     if(num == 0)
     {
@@ -77,6 +78,7 @@ void Recv::B_search(QString mess)
     //ret.push_back(example);
     qDebug() << "emit searchllllll";
     emit searchSignal(Word(word,soundmark,meaning,example));
+    qDebug() << "finish emit searchllllll";
 }
 
 void Recv::B_fuzzy(QString mess)
@@ -136,5 +138,5 @@ void Recv::B_sentence(QString mess)
     QString sentenceMeaning = mess.section(sep,3,3);
     qDebug() << sentenceMeaning;
     qDebug() << "emit sentence";
-    emit sentenceSignal(sentence,sentenceMeaning);
+    emit this->sentenceSignal(sentence,sentenceMeaning);
 }

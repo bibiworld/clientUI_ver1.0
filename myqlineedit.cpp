@@ -22,3 +22,12 @@ void myQLineEdit::focusInEvent(QFocusEvent*)
     pal.setColor(QPalette::Text,QColor(0,0,0));
     this->setPalette(pal);
 }
+/*
+void myQLineEdit::keyPressEvent(QKeyEvent *e)
+{
+    /*
+    if(e->key() == Qt::Key_Enter)
+        parent->
+        
+}
+*/
