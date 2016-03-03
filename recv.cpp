@@ -1,4 +1,4 @@
-#include "recv.h"
+﻿#include "recv.h"
 #include <QDebug>
 
 Recv::Recv(QTcpSocket *s, QObject *parent):
@@ -26,7 +26,7 @@ void Recv::recvMessage()
     }
     if(tmp != "") data += tmp;
     num = data.count('(') - data.count(')');   
-    emit this->sentenceSignal(QString("f"),QString("f"));
+    //emit this->sentenceSignal(QString("f"),QString("f"));
     
     if(num == 0)
     {
@@ -37,6 +37,7 @@ void Recv::recvMessage()
         }
         QRegExp sep("[)(]");
         QString flag = data.section(sep,0,0);//取出标识字串
+        qDebug() << "flag:" << flag;
         if(flag == "BIBI_search")//normal search
             B_search(data);
         if(flag == "BIBI_fuzzy")//fuzzy search
@@ -135,7 +136,8 @@ void Recv::B_sentence(QString mess)
     QRegExp sep("[)(]");
     QString sentence = mess.section(sep,2,2);
     sentence = sentence.replace("<*","(").replace("*>",")");
-    QString sentenceMeaning = mess.section(sep,3,3);
+    QString sentenceMeaning = mess.section(sep,4,4);
+    qDebug() << sentence;
     qDebug() << sentenceMeaning;
     qDebug() << "emit sentence";
     emit this->sentenceSignal(sentence,sentenceMeaning);
