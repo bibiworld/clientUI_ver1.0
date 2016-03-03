@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -27,6 +27,7 @@ class search;
 class fuzzySearch;
 class Cards;
 class wordBook;
+class Sentence;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

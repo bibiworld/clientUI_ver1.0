@@ -1,4 +1,5 @@
-#include "sentence.h"
+﻿#include "sentence.h"
+#include <QDebug>
 
 Sentence::Sentence(MainWindow *p, QWidget *w):QWidget(w)
 {
@@ -9,5 +10,6 @@ Sentence::Sentence(MainWindow *p, QWidget *w):QWidget(w)
 
 void Sentence::showSentence(QString eng, QString chi)
 {
+    qDebug() << "haoju:" << eng << chi;
     parent->sentencesLabel->setText(eng + "\n" + chi);
 }

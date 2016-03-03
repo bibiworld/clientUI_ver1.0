@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QAction>
 #include <QLineEdit>
@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sentencesLabel->show();
     
     mySentence = new Sentence(this);
-    Send::B_sentence();
+    Send::B_sentence(socket);
     
     toolBar = new QToolBar(this);
     this->setContextMenuPolicy(Qt::NoContextMenu);
@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete myRecv;
+    //delete myRecv;
     delete ui;
 }
 
@@ -165,9 +165,9 @@ void MainWindow::showWordBook()
 void MainWindow::showSentence(QString _sentence, QString _meaning)
 {
     qDebug() <<"wocao";
-    sentencesLabel->setText("每日一句:\n" + _sentence + "\n" + _meaning);
+    //sentencesLabel->setText("每日一句:\n" + _sentence + "\n" + _meaning);
     this->show();
-    disconnect(myRecv,SIGNAL(sentenceSignal(QString,QString)),this,SLOT(showSentence(QString,QString)));        
+    //disconnect(myRecv,SIGNAL(sentenceSignal(QString,QString)),this,SLOT(showSentence(QString,QString)));
 }
 
 void MainWindow::trayiconActivated(QSystemTrayIcon::ActivationReason reason)

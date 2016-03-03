@@ -1,4 +1,4 @@
-#ifndef LOGIN_H
+﻿#ifndef LOGIN_H
 #define LOGIN_H
 
 //#include <windows.h>
@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QThread>
 
-#define SERVER_IP "59.66.131.208"
+#define SERVER_IP "59.66.131.71"
 #define SERVER_PORT 1234 
 #define LOGIN 1
 #define REGISTER 2
