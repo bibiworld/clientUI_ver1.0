@@ -76,12 +76,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction* cardAction = new QAction(QIcon(imagesPath + "/cards.png"),tr("单词卡"),this);
     QAction* fuzzyAction = new QAction(QIcon(imagesPath + "/fuzzy.png"),tr("模糊查询"),this);
     QAction* bookAction = new QAction(QIcon(imagesPath + "/fuzzy.png"),tr("单词本"),this);
+    QAction* similarWordAction = new QAction(QIcon(imagesPath + "/search.png"),tr("亲戚单词"),this);
+
     
     toolBar->addAction(searchAction);
     toolBar->addAction(fuzzyAction);
     toolBar->addAction(cardAction);
     toolBar->addAction(userAction);
     toolBar->addAction(bookAction);
+    toolBar->addAction(similarWordAction);
     
     this->addToolBar(Qt::TopToolBarArea,toolBar);
     
@@ -90,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(userAction,SIGNAL(triggered(bool)),this,SLOT(userInfo()));
     connect(cardAction,SIGNAL(triggered(bool)),this,SLOT(printCards()));
     connect(bookAction,SIGNAL(triggered(bool)),this,SLOT(showWordBook()));
+    connect(similarWordAction,SIGNAL(triggered(bool)),this,SLOT(showSimilarWord()));
 
 }
 
@@ -143,6 +147,11 @@ void MainWindow::fuzzySearchWord()
 {
     clearUI();
     myFuzzySearch = new fuzzySearch(0,this);
+}
+
+void MainWindow::showSimilarWord(){
+    clearUI();
+    mySimilarWord = new SimilarWord(this);
 }
 
 void MainWindow::userInfo()

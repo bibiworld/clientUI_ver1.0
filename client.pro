@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     wordcontainer.cpp \
     myqlineedit.cpp \
     wordbook.cpp \
-    sentence.cpp
+    sentence.cpp \
+    similarword.cpp
 
 HEADERS  += mainwindow.h \
     search.h \
@@ -39,7 +40,8 @@ HEADERS  += mainwindow.h \
     wordcontainer.h \
     myqlineedit.h \
     wordbook.h \
-    sentence.h
+    sentence.h \
+    similarword.h
 
 FORMS    += mainwindow.ui
 

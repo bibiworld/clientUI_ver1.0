@@ -13,6 +13,7 @@ Sentence::Sentence(MainWindow *p, QWidget *w):QWidget(w)
 void Sentence::showSentence(QString eng, QString chi)
 {
     qDebug() << "haoju:" << eng << chi;
+    eng = eng.replace("\uFFFD","--");
     parent->sentencesLabel->setText(eng + "\n" + chi);
     disconnect(myRecv,SIGNAL(sentenceSignal(QString,QString)),this,SLOT(showSentence(QString,QString)));
     delete myRecv;

@@ -17,6 +17,7 @@
 #include "cards.h"
 #include "wordbook.h"
 #include "sentence.h"
+#include "similarword.h"
 
 using std::vector;
 
@@ -28,11 +29,13 @@ class fuzzySearch;
 class Cards;
 class wordBook;
 class Sentence;
+class SimilarWord;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
     friend class Cards;
     friend class search;
+    friend class SimilarWord;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -54,6 +57,8 @@ private:
     fuzzySearch* myFuzzySearch;//模糊查询
     Login* myLogin;//登陆界面
     Cards* myCards;//单词卡
+
+    SimilarWord* mySimilarWord;
     wordBook* myWordBook;//单词本
     vector<QString> eng;
     vector<QString> chi;
@@ -63,6 +68,7 @@ private:
 private slots:
     void searchWord();//查找单词界面
     void fuzzySearchWord();//模糊查询界面
+    void showSimilarWord();//显示亲戚单词 by lihaoyang
     void userInfo();//用户界面
     void printCards();//打印单词卡
     void showWordBook();//单词本

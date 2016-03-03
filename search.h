@@ -33,6 +33,7 @@ public slots:
     void addWord();
     void addWordtoBook();
     void editingFinishedSlot();
+
 };
 
 #endif // SEARCH
